@@ -4,6 +4,8 @@ import cors from "cors";
 import mongoose from "mongoose";
 import { ClerkExpressRequireAuth } from "@clerk/clerk-sdk-node";
 
+//routes
+import accountRoutes from "./routes/account-routes"
 dotenv.config();
 const app = express();
 if (!process.env.DATABASE_URL) {
@@ -46,13 +48,9 @@ app.use(cors());
 
 app.use(ClerkExpressRequireAuth());
 
+app.use("/api/accounts",accountRoutes);
 
 
-
-
-app.get("/api", (req, res) => {
-  res.send("Hello from /api rout");
-});
 
 app.listen(port, () => {
   console.log(`Server running at http://localhost:${port}`);
