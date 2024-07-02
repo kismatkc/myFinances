@@ -5,7 +5,7 @@ import mongoose from "mongoose";
 import { ClerkExpressRequireAuth } from "@clerk/clerk-sdk-node";
 
 //routes
-import accountRoutes from "./routes/account-routes"
+import accountRoutes from "./routes/account-routes.js"
 dotenv.config();
 const app = express();
 if (!process.env.DATABASE_URL) {
@@ -28,7 +28,7 @@ export const connectToDatabase = async () => {
 
   if (!cached.promise) {
     cached.promise = mongoose
-      .connect(process.env.DATABASE_URL as string)
+      .connect(process.env.DATABASE_URL)
       .then((mongoose) => {
         console.log('Connected to MongoDB');
         return mongoose;
@@ -48,7 +48,7 @@ app.use(cors());
 
 app.use(ClerkExpressRequireAuth());
 
-app.use("/api/accounts",accountRoutes);
+app.use("/api",accountRoutes);
 
 
 

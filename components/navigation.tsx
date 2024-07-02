@@ -5,6 +5,7 @@ import React from 'react'
 import NavButton from './nav-button'
 import { usePathname } from 'next/navigation'
 import { useMedia } from 'react-use'
+
 import {
     Sheet,
     SheetContent,
@@ -38,6 +39,7 @@ const navBarLinks = [
         label: "Settings"
     },
 ]
+
 const Navigation = () => {
     const pathname = usePathname();
     const isMobile = useMedia("(max-width: 1024px)",false);

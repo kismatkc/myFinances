@@ -27,6 +27,6 @@
     "**/*.tsx",
     ".next/types/**/*.ts",
     "app/api/[[...route]]/route.js"
-  ],
+, "backendmyfinances/controllers/account-controller.js", "backendmyfinances/models/account-model.js", "backendmyfinances/routes/account-routes.js", "backendmyfinances/server.js"  ],
   "exclude": ["node_modules"]
 }
