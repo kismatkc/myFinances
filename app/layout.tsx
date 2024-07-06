@@ -7,7 +7,7 @@ import {QueryClient,QueryClientProvider} from 'react-query';
 
 
 const inter = Inter({ subsets: ["latin"] });
-const queryClient = new QueryClient();
+// const queryClient = new QueryClient();
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -20,12 +20,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <QueryClientProvider client={queryClient}>
+    // <QueryClientProvider client={queryClient}>
   <ClerkProvider>
       <html lang="en">
         <body className={inter.className}>{children}</body>
       </html>
        </ClerkProvider>
-      </QueryClientProvider>
+      // </QueryClientProvider>
   );
 }
