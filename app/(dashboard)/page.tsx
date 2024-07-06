@@ -16,7 +16,7 @@ export default function Home() {
 
     const fetchData = async () => {
       try {
-        const response = await API.get("");
+        const response = await API.get("/account");
         setData(response.data);
         console.log(response.data);
       } catch (err) {
