@@ -47,6 +47,7 @@ const port = process.env.PORT || 4200;
 app.use(cors());
 
 // app.use(ClerkExpressRequireAuth());
+app.use(express.json());
 
 app.use("/api",accountRoutes);
 

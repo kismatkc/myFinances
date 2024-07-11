@@ -1,4 +1,7 @@
-import mongoose from "mongoose";
+import mongoose ,{Document,Schema} from "mongoose";
+import { Interface } from "readline";
+
+
 
 const accountSchema = new mongoose.Schema({
 id: {
@@ -9,10 +12,10 @@ id: {
         required: [true, "Name required"]
     }, userId: {
         type: String,
-        required: [true, "UserId required"]
+        required: [false, "UserId required"]
     }, plaidId: {
         type: String,
-        required: [true, "UserId required"]
+        required: [false, "UserId required"]
     },
 
 

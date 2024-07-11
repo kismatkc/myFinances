@@ -1,11 +1,12 @@
 import Account from "../models/account-model.js";
-export const createUser = async(req,res)=>{
+let newAccount= {};
+let createdUser = {};
+export const getUser = async(req,res)=>{
 
 
     try {
-        // const newAccount = new Account(req.body);
-        // await newAccount.save();
-        let newAccount = {
+   
+         newAccount = {
             a: "5",
             b: "6"
         }
@@ -16,3 +17,15 @@ export const createUser = async(req,res)=>{
     }
 }
 
+
+export const createUser = async(req,res)=>{
+try {
+
+createdUser = req.body
+    console.log(createdUser)
+
+} catch (error) {
+    console.log("data not recievd")
+    res.status(500).json({error: "data not recieved"})
+}
+}
