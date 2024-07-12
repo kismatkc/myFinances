@@ -9,6 +9,8 @@ import { FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessa
 import { Input } from './ui/input';
 import { Button } from './ui/button';
 import API from '@/app/axios';
+import useCreateNewAccount from "use-create-new-account-hook"
+
 
 const formSchema = z.object({
   name: z.string().min(2, {
@@ -20,6 +22,13 @@ const formSchema = z.object({
 
 type FormData = z.infer<typeof formSchema>;
 
+
+export const createUser = async (data: FormData)=> {
+   const response = await API.post("/account",data);
+return response.data;
+}
+
+
 const NewAccountForm: React.FC = () => {
   const formMethods = useForm<FormData>({
     resolver: zodResolver(formSchema),
@@ -29,10 +38,10 @@ const NewAccountForm: React.FC = () => {
   });
 
   const onSubmit: SubmitHandler<FormData> = data => {
-    console.log(data)
- const createUser = API.post("/account",data)
-  };
-
+    
+  }
+    
+ 
   return (
     <FormProvider {...formMethods}>
       <form onSubmit={formMethods.handleSubmit(onSubmit)} className="space-y-8">
