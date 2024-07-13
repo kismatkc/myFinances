@@ -6,7 +6,7 @@ import { useAuth } from '@clerk/nextjs';
 import { SignOutButton } from "@clerk/nextjs";
 import API, { setUpInterceptor } from "../axios";
 import {  useQuery } from "@tanstack/react-query";
-import { useNewAccount } from "@/hooks/new-account-hook"
+import  useNewAccount  from "@/hooks/new-account-hook"
 import { Button } from "@/components/ui/button";
 
 const fetchData = async () => {

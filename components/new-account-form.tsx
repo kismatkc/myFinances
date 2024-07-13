@@ -9,7 +9,8 @@ import { FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessa
 import { Input } from './ui/input';
 import { Button } from './ui/button';
 import API from '@/app/axios';
-import useCreateNewAccount from "use-create-new-account-hook"
+import useCreateNewAccount from "@/hooks/create-new-account-hook"
+import useNewAccount  from "@/hooks/new-account-hook";
 
 
 const formSchema = z.object({
@@ -20,27 +21,35 @@ const formSchema = z.object({
   }),
 });
 
-type FormData = z.infer<typeof formSchema>;
+export type formData = z.infer<typeof formSchema>;
 
 
-export const createUser = async (data: FormData)=> {
+export const createUser = async (data: formData)=> {
+   
    const response = await API.post("/account",data);
 return response.data;
 }
 
 
 const NewAccountForm: React.FC = () => {
-  const formMethods = useForm<FormData>({
+  const formMethods = useForm<formData>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       name: ""
     }
   });
+    const { onClose } = useNewAccount();
 
-  const onSubmit: SubmitHandler<FormData> = data => {
-    
-  }
-    
+
+  const mutation = useCreateNewAccount();
+
+
+  const onSubmit: SubmitHandler<formData> = (data) => {
+
+    mutation.mutate(data);
+    onClose();
+  };
+
  
   return (
     <FormProvider {...formMethods}>
@@ -54,14 +63,16 @@ const NewAccountForm: React.FC = () => {
               <FormControl>
                 <Input placeholder="Enter username" {...field} />
               </FormControl>
-             
+
               <FormMessage>
                 {formMethods.formState.errors.name?.message}
               </FormMessage>
             </FormItem>
           )}
         />
-        <Button type="submit" variant="outline">Submit</Button>
+        <Button type="submit" variant="outline" disabled={mutation.isPending}>
+          {mutation.isPending ? "Submitting" : "Submit"}
+        </Button>
       </form>
     </FormProvider>
   );

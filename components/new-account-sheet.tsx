@@ -5,7 +5,7 @@ import {
   SheetHeader,
   SheetTitle
 } from "@/components/ui/sheet"
-import { useNewAccount } from "@/hooks/new-account-hook"
+import  useNewAccount  from "@/hooks/new-account-hook"
 import NewAccountForm from "./new-account-form";
 
 const NewAccountSheet = () => {

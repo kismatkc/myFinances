@@ -23,7 +23,7 @@ try {
 
 createdUser = req.body
     console.log(createdUser)
-
+res.status(200).json(createdUser);
 } catch (error) {
     console.log("data not recievd")
     res.status(500).json({error: "data not recieved"})
