@@ -6,8 +6,8 @@ import { useAuth } from '@clerk/nextjs';
 import { SignOutButton } from "@clerk/nextjs";
 import API, { setUpInterceptor } from "../axios";
 import {  useQuery } from "@tanstack/react-query";
-import  useNewAccount  from "@/hooks/new-account-hook"
-import { Button } from "@/components/ui/button";
+
+
 
 const fetchData = async () => {
 
@@ -28,7 +28,6 @@ export default function Home() {
     queryKey: ['dashbaoard'],
     queryFn: fetchData,
   })
-  const {isOpen,onOpen,onClose} = useNewAccount();
 
   const { getToken } = useAuth();
   setUpInterceptor(getToken)
@@ -42,7 +41,7 @@ if(isLoading) return (
 
     <>
       <p>Dashboard: {JSON.stringify(data)}</p>
-     <Button  onClick={onOpen} variant="outline" size= "lg" >Add a account</Button>
+ 
       <SignOutButton />
     </>
   );

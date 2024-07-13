@@ -8,7 +8,7 @@ isOpen: boolean,
 onOpen: ()=> void;
 onClose: ()=> void;
 }
-
+//use on prefix before methods to change the state 
  const useNewAccount =  create<NewAccountState>((set)=>({
 isOpen: false,
 onOpen: ()=> set({isOpen: true}),
