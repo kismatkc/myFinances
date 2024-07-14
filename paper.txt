@@ -1,0 +1,17 @@
+Data = [1,2,3,45,5,23,234,234,234,23,423,423,4,234,234]
+
+items per page =  5;
+total number of page = data /5 (round it up)
+
+slice = (start,end)
+
+
+1st page 
+current page = 1
+
+data = slice(current page-1,items per page)
+
+2nd page 
+current page = 2
+
+
