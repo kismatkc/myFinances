@@ -9,16 +9,39 @@ import {
   CardFooter,
 } from "@/components/ui/card";
 import { Plus } from "lucide-react";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import useNewAccount from "@/hooks/new-account-hook";
 
-import { columns } from "./columns";
+import { columns ,Account} from "./columns";
 import { DataTable } from "@/components/data-table";
-import { focusManager } from "@tanstack/react-query";
+import API from "@/app/axios";
+const getAccounts = async(): Promise<Account[]>=>{
+  const response = await API.get("/account")
+  const data = response.data;
+  return data;
+
+}
 
 //fetch data 
 const AccountsPage = () => {
   const { onOpen } = useNewAccount();
+  const [data,setData] = useState([{name: "kismat"}])
+
+  useEffect(()=>{
+
+    const getData = async()=>{
+      try {
+        const data = await getAccounts();
+        setData(data)
+      } catch (error) {
+        console.log(error)
+      }
+    }
+    
+    getData()
+
+  },[])
+
 
   return (
     <Card className="border-none drop-shadow-sm max-w-screen-2xl  mx-auto pb-10 -mt-24">

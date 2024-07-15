@@ -1,4 +1,4 @@
-const default accountData = [
+ const accountData = [
   { name: "John Smith" },
   { name: "Jane Doe" },
   { name: "Michael Johnson" },
@@ -30,3 +30,5 @@ const default accountData = [
   { name: "Joshua Scott" },
   { name: "Zoe Adams" }
 ];
+
+export default accountData;

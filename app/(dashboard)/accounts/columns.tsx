@@ -6,9 +6,12 @@ import { Button } from "@/components/ui/button";
 
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
+export type Account = {
+  name: string
+}
 
 import { Checkbox } from "@/components/ui/checkbox";
-export const columns: ColumnDef<Payment>[] = [
+export const columns: ColumnDef<Account>[] = [
   {
     id: "select",
     header: ({ table }) => (
@@ -33,12 +36,12 @@ export const columns: ColumnDef<Payment>[] = [
   },
 
   {
-    accessorKey:"Name",
-    header: ({ name }) => {
+    accessorKey:"name",
+    header: ({ column }) => {
       return (
         <Button
           variant="ghost"
-          onClick={() => column.toggleSorting(name.getIsSorted() === "asc")}
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
         Name
           <ArrowUpDown className="ml-2 h-4 w-4" />
