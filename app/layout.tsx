@@ -5,6 +5,8 @@ import { ClerkProvider } from "@clerk/nextjs";
 import ReactQueryProviderWrapper from "@/components/providers/reactquery-provider-wrapper";
 import { Toaster } from "@/components/ui/sonner";
 
+
+
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
@@ -17,10 +19,11 @@ export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
+ 
 }>) {
   return (
     <ReactQueryProviderWrapper>
-      <ClerkProvider>
+      {/* <ClerkProvider> */}
         <html lang="en">
           <body className={inter.className}>
             <SheetProvider />
@@ -28,7 +31,7 @@ export default function RootLayout({
             {children}
           </body>
         </html>
-      </ClerkProvider>
+      {/* </ClerkProvider> */}
     </ReactQueryProviderWrapper>
   );
 }

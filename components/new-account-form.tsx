@@ -10,8 +10,6 @@ import { Input } from './ui/input';
 import { Button } from './ui/button';
 import API from '@/app/axios';
 import useCreateNewAccount from "@/hooks/create-new-account-hook"
-import useNewAccount  from "@/hooks/new-account-hook";
-
 
 const formSchema = z.object({
   name: z.string().min(2, {
@@ -27,6 +25,7 @@ export type formData = z.infer<typeof formSchema>;
 export const createUser = async (data: formData)=> {
    
    const response = await API.post("/account",data);
+  console.log(response.data);
 return response.data;
 }
 
@@ -38,7 +37,7 @@ const NewAccountForm: React.FC = () => {
       name: ""
     }
   });
-    const { onClose } = useNewAccount();
+    
 
 
   const mutation = useCreateNewAccount();
@@ -47,7 +46,7 @@ const NewAccountForm: React.FC = () => {
   const onSubmit: SubmitHandler<formData> = (data) => {
 
     mutation.mutate(data);
-    onClose();
+    
   };
 
  

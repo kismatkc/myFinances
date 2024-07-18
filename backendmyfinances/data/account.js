@@ -1,34 +1,17 @@
- const accountData = [
-  { name: "John Smith" },
-  { name: "Jane Doe" },
-  { name: "Michael Johnson" },
-  { name: "Emily Davis" },
-  { name: "Daniel Brown" },
-  { name: "Olivia Wilson" },
-  { name: "James Garcia" },
-  { name: "Sophia Martinez" },
-  { name: "Benjamin Anderson" },
-  { name: "Mia Thomas" },
-  { name: "William Taylor" },
-  { name: "Ava Moore" },
-  { name: "Henry Jackson" },
-  { name: "Isabella Martin" },
-  { name: "Samuel Lee" },
-  { name: "Charlotte Perez" },
-  { name: "Alexander Thompson" },
-  { name: "Amelia White" },
-  { name: "David Harris" },
-  { name: "Harper Clark" },
-  { name: "Joseph Lewis" },
-  { name: "Evelyn Robinson" },
-  { name: "Matthew Walker" },
-  { name: "Ella Hall" },
-  { name: "Andrew Young" },
-  { name: "Grace Allen" },
-  { name: "Christopher King" },
-  { name: "Lily Wright" },
-  { name: "Joshua Scott" },
-  { name: "Zoe Adams" }
+export default [
+   {
+      "name": "mr"
+   },
+   {
+      "name": "hhhhhh"
+   },
+   {
+      "name": "hhhhjh"
+   },
+   {
+      "name": "huhhjiii"
+   },
+   {
+      "name": "hiii"
+   }
 ];
-
-export default accountData;

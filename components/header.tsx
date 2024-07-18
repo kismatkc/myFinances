@@ -21,12 +21,12 @@ const Header = () => {
                         <HeaderLogo />
                         <Navigation/>
                     </div>
-                        <ClerkLoaded >
+                        {/* <ClerkLoaded >
                             <UserButton />
                         </ClerkLoaded>
                         <ClerkLoading>
                             <Loader2 className='animate-spin text-slate-400 size-8 '/>
-                        </ClerkLoading>
+                        </ClerkLoading> */}
                       
                    
                     

@@ -1,3 +1,4 @@
+
 "use client";
 import { Button } from "@/components/ui/button";
 import {
@@ -11,10 +12,13 @@ import {
 import { Plus } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import useNewAccount from "@/hooks/new-account-hook";
+import {useQuery} from "@tanstack/react-query"
+
 
 import { columns ,Account} from "./columns";
 import { DataTable } from "@/components/data-table";
 import API from "@/app/axios";
+
 const getAccounts = async(): Promise<Account[]>=>{
   const response = await API.get("/account")
   const data = response.data;
@@ -24,23 +28,16 @@ const getAccounts = async(): Promise<Account[]>=>{
 
 //fetch data 
 const AccountsPage = () => {
+  
   const { onOpen } = useNewAccount();
-  const [data,setData] = useState([{name: "kismat"}])
+  const {data,error,isLoading} = useQuery({
+    queryKey: ["accounts"],
+    queryFn: getAccounts
+   
+  });
 
-  useEffect(()=>{
+  
 
-    const getData = async()=>{
-      try {
-        const data = await getAccounts();
-        setData(data)
-      } catch (error) {
-        console.log(error)
-      }
-    }
-    
-    getData()
-
-  },[])
 
 
   return (
@@ -53,10 +50,12 @@ const AccountsPage = () => {
         </Button>
       </CardHeader>
       <CardContent>
-        <DataTable columns={columns} data={data} />
+        <DataTable columns={columns} data={data || [{name: "kismat"}]} />
       </CardContent>
     </Card>
   );
 };
 
 export default AccountsPage;
+
+

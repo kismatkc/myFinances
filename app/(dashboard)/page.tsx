@@ -29,8 +29,8 @@ export default function Home() {
     queryFn: fetchData,
   })
 
-  const { getToken } = useAuth();
-  setUpInterceptor(getToken)
+  // const { getToken } = useAuth();
+  // setUpInterceptor(getToken)
 if(error) return (
   <p>Error</p>
 )
@@ -42,7 +42,7 @@ if(isLoading) return (
     <>
       <p>Dashboard: {JSON.stringify(data)}</p>
  
-      <SignOutButton />
+      {/* <SignOutButton /> */}
     </>
   );
 }
