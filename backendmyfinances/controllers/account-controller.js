@@ -12,6 +12,21 @@ const writeToFile = (data)=>{
     fs.writeFileSync(fullPathToData,`export default ${JSON.stringify(data,null,3)};`)
 }
 
+
+export const deleteUser = async(req,res)=>{
+    
+try {
+let deletedData = new Set(req.body)
+const newAccountData = accountData.filter((acc)=> !deletedData.has(acc.name))
+writeToFile(newAccountData)
+res.status(200).json({success: "account delted"})
+
+} catch (error) {
+    res.status(500).json({message: "account deltion coudlnto happen"})
+}
+
+}
+
 export const getUser = async(req,res)=>{
 
 

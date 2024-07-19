@@ -3,9 +3,6 @@ import dotenv from "dotenv"
 import cors from "cors";
 import mongoose from "mongoose";
 import { ClerkExpressRequireAuth } from "@clerk/clerk-sdk-node";
-setInterval(()=>{
-    console.log(``);
-},600000)
 
 //routes
 import accountRoutes from "./routes/account-routes.js"
@@ -14,6 +11,7 @@ const app = express();
 if (!process.env.DATABASE_URL) {
   throw new Error('Please define the MONGODB_URL environment variable inside .env.local');
 }
+
 
 let cached = global.mongoose;
 

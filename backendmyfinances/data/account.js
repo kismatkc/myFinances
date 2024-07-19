@@ -1,17 +1,11 @@
 export default [
    {
-      "name": "mr"
+      "name": "eeeee"
    },
    {
-      "name": "hhhhhh"
+      "name": "ddd"
    },
    {
-      "name": "hhhhjh"
-   },
-   {
-      "name": "huhhjiii"
-   },
-   {
-      "name": "hiii"
+      "name": "fff"
    }
 ];
