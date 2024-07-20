@@ -9,12 +9,12 @@ onOpen: ()=> void;
 onClose: ()=> void;
 }
 //use on prefix before methods to change the state 
- const useNewAccount =  create<NewAccountState>((set)=>({
+ const useAddNewAccountModal =  create<NewAccountState>((set)=>({
 isOpen: false,
 onOpen: ()=> set({isOpen: true}),
 onClose: ()=> set({isOpen: false})
 
 }))
 
-export default useNewAccount
+export default useAddNewAccountModal
 

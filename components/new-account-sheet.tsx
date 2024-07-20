@@ -14,11 +14,11 @@ import {
 } from "@/components/ui/dialog"
 import * as VisuallyHidden from '@radix-ui/react-visually-hidden';
 
-import  useNewAccount  from "@/hooks/new-account-hook"
+import useAddNewAccountModal from "@/hooks/accounts/add-new-account-modal";
 import NewAccountForm from "./new-account-form";
 
 const NewAccountSheet = () => {
-  const {isOpen,onOpen,onClose} = useNewAccount(); //this hook is really handy 
+  const { isOpen, onOpen, onClose } = useAddNewAccountModal(); //this hook is really handy 
   return (
   
    <Sheet open={isOpen} onOpenChange={onClose} >

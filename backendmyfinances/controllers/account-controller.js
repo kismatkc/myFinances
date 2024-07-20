@@ -16,11 +16,11 @@ const writeToFile = (data)=>{
 export const deleteUser = async(req,res)=>{
     
 try {
-let deletedData = new Set(req.body)
-const newAccountData = accountData.filter((acc)=> !deletedData.has(acc.name))
-writeToFile(newAccountData)
-res.status(200).json({success: "account delted"})
+  const deletedAccounts = new Set(req.body.map((acc) => acc.name));
 
+  const newAccountData = accountData.filter((acc)=> !deletedAccounts.has(acc.name))
+  writeToFile(newAccountData)
+  res.status(200).json({success: "account delted"})
 } catch (error) {
     res.status(500).json({message: "account deltion coudlnto happen"})
 }

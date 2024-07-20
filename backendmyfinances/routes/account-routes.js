@@ -5,6 +5,6 @@ import { createUser, deleteUser, getUser } from "../controllers/account-controll
 
 router.get("/account",getUser);
 router.post("/account",createUser)
-router.delete("/account",deleteUser)
+router.post("/account/delete",deleteUser)
 
 export default router;

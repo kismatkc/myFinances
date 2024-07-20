@@ -10,16 +10,18 @@ const createUser = async (data: formData)=> {
    const response = await API.post("/account",data);
 return response.data;
 }
-import useNewAccount  from "@/hooks/new-account-hook";
+import useAddNewAccountModal  from "@/hooks/accounts/add-new-account-modal";
 
 const useCreateNewAccount = ()=>{
-  const { onClose } = useNewAccount();
+  const { onClose } = useAddNewAccountModal();
 const queryClient = useQueryClient();
   return useMutation({
     mutationFn: createUser,
     onSuccess:()=>{
       toast("Account has been created")
-      queryClient.invalidateQueries(["accounts"])
+      queryClient.invalidateQueries({
+        queryKey: ['accounts']
+      })
                                    onClose()
       
     },

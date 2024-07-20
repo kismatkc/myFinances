@@ -9,7 +9,7 @@ import { FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessa
 import { Input } from './ui/input';
 import { Button } from './ui/button';
 import API from '@/app/axios';
-import useCreateNewAccount from "@/hooks/create-new-account-hook"
+import useCreateNewAccount from "@/hooks/accounts/create-new-account-hook"
 
 const formSchema = z.object({
   name: z.string().min(2, {
