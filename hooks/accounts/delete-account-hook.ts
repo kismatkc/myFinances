@@ -1,32 +1,39 @@
-import API from "@/app/axios";
-import { useQueryClient,useQuery,useMutation, QueryClient } from "@tanstack/react-query";
-import { Account } from "@/app/(dashboard)/accounts/columns";
-import { toast } from "sonner";
 
-const deleteAccount = async (deletedAccounts: Account[])=>{
-    
-const response = await API.post("/account/delete",
-    deletedAccounts
-  
-)
-    return response.data
+
+import API
+    from "@/app/axios";
+
+import { toast } from "sonner"
+import {  useMutation, useQueryClient } from "@tanstack/react-query"
+
+const deleteUser = async (data: {data: string[]}) => {
+    const response = await API.post("/account/delete", data);
+    return response.data;
 }
+import useAddNewAccountModal from "@/hooks/accounts/add-new-account-modal";
 
-export default function useDeleteAccount(){
+const useDeleteAccount = () => {
+    const { onClose } = useAddNewAccountModal();
     const queryClient = useQueryClient();
-return useMutation({
-    mutationFn: deleteAccount,
-    onSuccess: () => {
-        console.log("Invalidating accounts query");
-        queryClient.invalidateQueries({ queryKey: ['accounts'] });
-        toast("Account deleted successfully");
-    },
+    return useMutation({
+        mutationFn: deleteUser,
+        onSuccess: () => {
+           console.log("refetching")
+            toast("Account has been deleted")
+            queryClient.invalidateQueries({
+                queryKey: ['accounts']
+            })
+            queryClient.refetchQueries({
+                queryKey: ["accounts"]
+            })
+            onClose()
 
-    onError: (error) => {
-        console.error("Error deleting account:", error);
-        toast("Failed to delete account");
-    },
-})
+        },
+        onError: (err) => {
+            console.log(err)
+            toast("Account not deleted please try again")
+        }
+    })
 }
 
-
+export default useDeleteAccount;

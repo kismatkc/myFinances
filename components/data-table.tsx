@@ -1,230 +1,19 @@
-// "use client";
-// import * as React from "react";
-
-// import {
-//   ColumnDef,
-//   flexRender,
-//   getCoreRowModel,
-//   ColumnFiltersState,
-//   SortingState,
-//   getFilteredRowModel,
-//   useReactTable,
-//   VisibilityState,
-//   getPaginationRowModel,
-//   getSortedRowModel,
-// } from "@tanstack/react-table";
-
-// import {
-//   Table,
-//   TableBody,
-//   TableCell,
-//   TableHead,
-//   TableHeader,
-//   TableRow,
-// } from "@/components/ui/table";
-// import {
-//   DropdownMenu,
-//   DropdownMenuCheckboxItem,
-//   DropdownMenuContent,
-//   DropdownMenuTrigger,
-// } from "@/components/ui/dropdown-menu";
-// import { Button } from "@/components/ui/button";
-// import { Input } from "@/components/ui/input";
-// import { Trash } from "lucide-react";
-
-// import { Account } from "@/app/(dashboard)/accounts/columns";
-
-
-
-
-// interface DataTableProps<TData, TValue> {
-//   columns: ColumnDef<TData, TValue>[];
-//   data: TData[];
-//   onDelete: (deletedAccounts: Account[]) => void
-// }
-
-// export function DataTable<TData extends Account, TValue>({
-//   columns,
-//   data,
-//   onDelete,
-// }: DataTableProps<TData, TValue>) {
-//   const [sorting, setSorting] = React.useState<SortingState>([]);
-//   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
-//     []
-//   );
-//   const [columnVisibility, setColumnVisibility] =
-//     React.useState<VisibilityState>({});
-//   const [rowSelection, setRowSelection] = React.useState({});
-//   const [updateState, setUpdateState] = React.useState(false);
-
-//   const table = useReactTable({
-//     data,
-//     columns,
-//     getCoreRowModel: getCoreRowModel(),
-//     onColumnFiltersChange: setColumnFilters,
-//     getFilteredRowModel: getFilteredRowModel(),
-//     getPaginationRowModel: getPaginationRowModel(),
-//     onSortingChange: setSorting,
-//     getSortedRowModel: getSortedRowModel(),
-//     onColumnVisibilityChange: setColumnVisibility,
-//     onRowSelectionChange: setRowSelection,
-
-//     state: {
-//       sorting,
-//       columnFilters,
-//       columnVisibility,
-//       rowSelection,
-//     },
-//   });
-
-//   return (
-//     <div>
-//       <div className="flex items-center justify-between py-4">
-//         <Input
-//           placeholder="Filter name..."
-//           value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
-//           onChange={(event) =>
-//             table.getColumn("name")?.setFilterValue(event.target.value)
-//           }
-//           className="max-w-sm"
-//         />
-//         <div className="flex items-center">
-//           {table.getFilteredSelectedRowModel().rows.length > 0 && (
-//             <Button
-//               variant="destructive"
-//               className="mr-6"
-//               onClick={() => {
-//                 const deletedAccounts = table
-//                   .getFilteredSelectedRowModel()
-//                   .rows.map((item) => item.original);
-// onDelete(deletedAccounts)
-//                 table.resetRowSelection();
-//               }}
-//             >
-//               <Trash className="mr-1 size-4" />
-//               Delete
-//             </Button>
-//           )}
-//           <DropdownMenu>
-//             <DropdownMenuTrigger asChild>
-//               <Button variant="outline" className="ml-auto">
-//                 Columns
-//               </Button>
-//             </DropdownMenuTrigger>
-//             <DropdownMenuContent align="end">
-//               {table
-//                 .getAllColumns()
-//                 .filter((column) => column.getCanHide())
-//                 .map((column) => {
-//                   return (
-//                     <DropdownMenuCheckboxItem
-//                       key={column.id}
-//                       className="capitalize"
-//                       checked={column.getIsVisible()}
-//                       onCheckedChange={(value) =>
-//                         column.toggleVisibility(!!value)
-//                       }
-//                     >
-//                       {column.id}
-//                     </DropdownMenuCheckboxItem>
-//                   );
-//                 })}
-//             </DropdownMenuContent>
-//           </DropdownMenu>
-//         </div>
-//       </div>
-//       <div className="rounded-md border">
-//         <Table>
-//           <TableHeader>
-//             {table.getHeaderGroups().map((headerGroup) => (
-//               <TableRow key={headerGroup.id}>
-//                 {headerGroup.headers.map((header) => {
-//                   return (
-//                     <TableHead key={header.id}>
-//                       {header.isPlaceholder
-//                         ? null
-//                         : flexRender(
-//                             header.column.columnDef.header,
-//                             header.getContext()
-//                           )}
-//                     </TableHead>
-//                   );
-//                 })}
-//               </TableRow>
-//             ))}
-//           </TableHeader>
-//           <TableBody>
-//             {table.getRowModel().rows?.length ? (
-//               table.getRowModel().rows.map((row) => (
-//                 <TableRow
-//                   key={row.id}
-//                   data-state={row.getIsSelected() && "selected"}
-//                 >
-//                   {row.getVisibleCells().map((cell) => (
-//                     <TableCell key={cell.id}>
-//                       {flexRender(
-//                         cell.column.columnDef.cell,
-//                         cell.getContext()
-//                       )}
-//                     </TableCell>
-//                   ))}
-//                 </TableRow>
-//               ))
-//             ) : (
-//               <TableRow>
-//                 <TableCell
-//                   colSpan={columns.length}
-//                   className="h-24 text-center"
-//                 >
-//                   No results.
-//                 </TableCell>
-//               </TableRow>
-//             )}
-//           </TableBody>
-//         </Table>
-//       </div>
-//       <div className="flex-1 text-sm text-muted-foreground">
-//         {table.getFilteredSelectedRowModel().rows.length} of{" "}
-//         {table.getFilteredRowModel().rows.length} row(s) selected.
-//       </div>
-
-//       <div className="flex items-center justify-end space-x-2 py-4">
-//         <Button
-//           variant="outline"
-//           size="sm"
-//           onClick={() => table.previousPage()}
-//           disabled={!table.getCanPreviousPage()}
-//         >
-//           Previous
-//         </Button>
-//         <Button
-//           variant="outline"
-//           size="sm"
-//           onClick={() => table.nextPage()}
-//           disabled={!table.getCanNextPage()}
-//         >
-//           Next
-//         </Button>
-//       </div>
-//     </div>
-//   );
-// }
-
-
 "use client";
+import { Button } from "@/components/ui/button";
 import * as React from "react";
+
 import {
   ColumnDef,
   flexRender,
   getCoreRowModel,
-  ColumnFiltersState,
-  SortingState,
-  getFilteredRowModel,
-  useReactTable,
-  VisibilityState,
   getPaginationRowModel,
   getSortedRowModel,
+  ColumnFiltersState,
+  getFilteredRowModel,
+  useReactTable,
+  SortingState,
 } from "@tanstack/react-table";
+
 import {
   Table,
   TableBody,
@@ -233,13 +22,6 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import {
-  DropdownMenu,
-  DropdownMenuCheckboxItem,
-  DropdownMenuContent,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Trash } from "lucide-react";
 import { Account } from "@/app/(dashboard)/accounts/columns";
@@ -247,132 +29,90 @@ import { Account } from "@/app/(dashboard)/accounts/columns";
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
-  onDelete: (deletedAccounts: Account[]) => void;
+  filter: string;
+  onDelete: (rows: string[]) => void;
+  disabled?: boolean;
 }
 
 export function DataTable<TData extends Account, TValue>({
   columns,
   data,
+  filter,
   onDelete,
+  disabled,
 }: DataTableProps<TData, TValue>) {
-  const [tableData, setTableData] = React.useState(data);
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
   );
-  const [columnVisibility, setColumnVisibility] =
-    React.useState<VisibilityState>({});
   const [rowSelection, setRowSelection] = React.useState({});
+ 
 
-  React.useEffect(() => {
-    setTableData(data);
-  }, [data]);
+
 
   const table = useReactTable({
-    data: tableData,
+    data,
     columns,
-    getCoreRowModel: getCoreRowModel(),
-    onColumnFiltersChange: setColumnFilters,
-    getFilteredRowModel: getFilteredRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
+    getCoreRowModel: getCoreRowModel(),
     onSortingChange: setSorting,
     getSortedRowModel: getSortedRowModel(),
-    onColumnVisibilityChange: setColumnVisibility,
+    onColumnFiltersChange: setColumnFilters,
+    getFilteredRowModel: getFilteredRowModel(),
     onRowSelectionChange: setRowSelection,
-
     state: {
       sorting,
       columnFilters,
-      columnVisibility,
       rowSelection,
     },
   });
 
-  const handleDelete = (deletedAccounts: Account[]) => {
-    // Optimistically update the local state
-    setTableData((prevData) =>
-      prevData.filter(
-        (account) =>
-          !deletedAccounts.some(
-            (deleted) => JSON.stringify(deleted) === JSON.stringify(account)
-          )
-      )
-    );
-    onDelete(deletedAccounts);
-  };
-
   return (
     <div>
-      <div className="flex items-center justify-between py-4">
+      <div className="flex items-center py-4">
         <Input
-          placeholder="Filter name..."
-          value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
+          placeholder={`Filter ${filter}...`}
+          value={(table.getColumn(filter)?.getFilterValue() as string) ?? ""}
           onChange={(event) =>
-            table.getColumn("name")?.setFilterValue(event.target.value)
+            table.getColumn(filter)?.setFilterValue(event.target.value)
           }
           className="max-w-sm"
         />
-        <div className="flex items-center">
-          {table.getFilteredSelectedRowModel().rows.length > 0 && (
-            <Button
-              variant="destructive"
-              className="mr-6"
-              onClick={() => {
-                const deletedAccounts = table
-                  .getFilteredSelectedRowModel()
-                  .rows.map((item) => item.original);
-                handleDelete(deletedAccounts);
-              }}
-            >
-              <Trash className="mr-1 size-4" />
-              Delete
-            </Button>
-          )}
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="outline" className="ml-auto">
-                Columns
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
-              {table
-                .getAllColumns()
-                .filter((column) => column.getCanHide())
-                .map((column) => {
-                  return (
-                    <DropdownMenuCheckboxItem
-                      key={column.id}
-                      className="capitalize"
-                      checked={column.getIsVisible()}
-                      onCheckedChange={(value) =>
-                        column.toggleVisibility(!!value)
-                      }
-                    >
-                      {column.id}
-                    </DropdownMenuCheckboxItem>
-                  );
-                })}
-            </DropdownMenuContent>
-          </DropdownMenu>
-        </div>
+        {table.getFilteredSelectedRowModel().rows.length > 0 && (
+          <Button
+            variant="destructive"
+            size="sm"
+            onClick={() => {
+              const data = table
+                .getFilteredSelectedRowModel()
+                .rows.map((item) => item.original.id);
+              onDelete(data);
+              table.resetRowSelection();
+              // Forcefully rerender by updating the state
+             
+            }}
+            className="ml-auto font-normal text-xs"
+          >
+            <Trash className="size-4 mr-2" />
+            Delete({table.getFilteredSelectedRowModel().rows.length})
+          </Button>
+        )}
       </div>
       <div className="rounded-md border">
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
-                {headerGroup.headers.map((header) => {
-                  return (
-                    <TableHead key={header.id}>
-                      {header.isPlaceholder
-                        ? null
-                        : flexRender(
-                            header.column.columnDef.header,
-                            header.getContext()
-                          )}
-                    </TableHead>
-                  );
-                })}
+                {headerGroup.headers.map((header) => (
+                  <TableHead key={header.id}>
+                    {header.isPlaceholder
+                      ? null
+                      : flexRender(
+                          header.column.columnDef.header,
+                          header.getContext()
+                        )}
+                  </TableHead>
+                ))}
               </TableRow>
             ))}
           </TableHeader>
@@ -406,11 +146,6 @@ export function DataTable<TData extends Account, TValue>({
           </TableBody>
         </Table>
       </div>
-      <div className="flex-1 text-sm text-muted-foreground">
-        {table.getFilteredSelectedRowModel().rows.length} of{" "}
-        {table.getFilteredRowModel().rows.length} row(s) selected.
-      </div>
-
       <div className="flex items-center justify-end space-x-2 py-4">
         <Button
           variant="outline"
@@ -428,6 +163,10 @@ export function DataTable<TData extends Account, TValue>({
         >
           Next
         </Button>
+      </div>
+      <div className="flex-1 text-sm text-muted-foreground">
+        {table.getFilteredSelectedRowModel().rows.length} of{" "}
+        {table.getFilteredRowModel().rows.length} row(s) selected.
       </div>
     </div>
   );

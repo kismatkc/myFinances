@@ -17,6 +17,11 @@ const formSchema = z.object({
   }).max(30, {
     message: "Username must be at most 30 characters.",
   }),
+   id: z.string().min(1, {
+    message: "Id must be at least 1 characters.",
+  }).max(3, {
+    message: "Id must be at most 30 characters.",
+  })
 });
 
 export type formData = z.infer<typeof formSchema>;
@@ -34,6 +39,7 @@ const NewAccountForm: React.FC = () => {
   const formMethods = useForm<formData>({
     resolver: zodResolver(formSchema),
     defaultValues: {
+      id: "",
       name: ""
     }
   });
@@ -53,6 +59,22 @@ const NewAccountForm: React.FC = () => {
   return (
     <FormProvider {...formMethods}>
       <form onSubmit={formMethods.handleSubmit(onSubmit)} className="space-y-8">
+        <FormField
+          control={formMethods.control}
+          name="id"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Id</FormLabel>
+              <FormControl>
+                <Input placeholder="Enter username" {...field} />
+              </FormControl>
+
+              <FormMessage>
+                {formMethods.formState.errors.name?.message}
+              </FormMessage>
+            </FormItem>
+          )}
+        />
         <FormField
           control={formMethods.control}
           name="name"

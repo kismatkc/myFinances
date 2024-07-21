@@ -14,17 +14,19 @@ const writeToFile = (data)=>{
 
 
 export const deleteUser = async(req,res)=>{
-    
-try {
-  const deletedAccounts = new Set(req.body.map((acc) => acc.name));
+   
 
-  const newAccountData = accountData.filter((acc)=> !deletedAccounts.has(acc.name))
-  writeToFile(newAccountData)
-  res.status(200).json({success: "account delted"})
+try {
+     const deleteAccount = new Set(req.body.data);
+     const newAccountData = accountData.filter(
+       (item) => !item.id === deleteAccount.has(item.id)
+     );
+     writeToFile(newAccountData);
 } catch (error) {
-    res.status(500).json({message: "account deltion coudlnto happen"})
+    console.log("backkend error",error)
 }
 
+res.status(200).json({success: "account created"})
 }
 
 export const getUser = async(req,res)=>{
