@@ -16,13 +16,30 @@ const useCreateNewAccount = ()=>{
   const { onClose } = useAddNewAccountModal();
 const queryClient = useQueryClient();
   return useMutation({
+    
     mutationFn: createUser,
+    onMutate: (newAccount)=>{
+      toast("Account added successfully")
+      queryClient.cancelQueries(
+         ['accounts']
+      );
+      
+      const previousAccounts = queryClient.getQueryData(['accounts'] );
+      
+      queryClient.setQueryData(   ['accounts'],(old)=> [...old,newAccount]
+      );
+      onClose()
+    },
+    
     onSuccess:()=>{
-      toast("Account has been created")
+      
       queryClient.invalidateQueries({
         queryKey: ['accounts']
       })
-                                   onClose()
+     
+      
+      
+                                   
       
     },
     onError: ()=>{

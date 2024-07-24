@@ -1,18 +1,18 @@
 export default [
    {
-      "name": "ghkjgh",
-      "id": "h"
+      "name": "kismat",
+      "id": "1"
    },
    {
-      "name": "jkljl",
-      "id": "ll"
+      "name": "anish",
+      "id": "2"
    },
    {
-      "name": "asdf",
-      "id": "ff"
+      "name": "jdjsjs",
+      "id": "12"
    },
    {
-      "name": "dd",
-      "id": "d"
+      "name": "hsjjswkkw",
+      "id": "11"
    }
 ];

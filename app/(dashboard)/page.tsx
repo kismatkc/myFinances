@@ -9,6 +9,7 @@ import {  useQuery } from "@tanstack/react-query";
 
 
 
+
 const fetchData = async () => {
 
   try {
@@ -23,11 +24,14 @@ return response.data;
 export default function Home() {
 
   const [obj, setData] = useState(null);
+  
+  
   const {data,error,isLoading} = useQuery({
     
     queryKey: ['dashbaoard'],
     queryFn: fetchData,
   })
+
 
   // const { getToken } = useAuth();
   // setUpInterceptor(getToken)
@@ -41,7 +45,11 @@ if(isLoading) return (
 
     <>
       <p>Dashboard: {JSON.stringify(data)}</p>
- 
+
+  
+      
+
+
       {/* <SignOutButton /> */}
     </>
   );

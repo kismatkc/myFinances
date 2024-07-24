@@ -34,6 +34,7 @@ const AccountsPage = () => {
     queryKey: ["accounts"],
     queryFn: fetchAccounts,
   });
+    
 
   const { onOpen } = useAddNewAccountModal();
 const deleteAccounts = useDeleteAccount();

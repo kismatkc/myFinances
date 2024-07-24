@@ -1,6 +1,7 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import * as React from "react";
+import useConfirmation from '@/hooks/confirmationDialog';
 
 import {
   ColumnDef,
@@ -45,6 +46,8 @@ export function DataTable<TData extends Account, TValue>({
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
   );
+  const [ConfirmationModalUi,openConfirmationModal] = useConfirmation()
+  
   const [rowSelection, setRowSelection] = React.useState({});
  
 
@@ -82,12 +85,17 @@ export function DataTable<TData extends Account, TValue>({
           <Button
             variant="destructive"
             size="sm"
-            onClick={() => {
+            onClick={async () => {
+              const yes = await openConfirmationModal();
+      
+      if(yes){
+      
               const data = table
                 .getFilteredSelectedRowModel()
                 .rows.map((item) => item.original.id);
               onDelete(data);
               table.resetRowSelection();
+      }
               // Forcefully rerender by updating the state
              
             }}
@@ -168,6 +176,7 @@ export function DataTable<TData extends Account, TValue>({
         {table.getFilteredSelectedRowModel().rows.length} of{" "}
         {table.getFilteredRowModel().rows.length} row(s) selected.
       </div>
+       <ConfirmationModalUi />
     </div>
   );
 }
