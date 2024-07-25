@@ -7,11 +7,16 @@ import {
   DialogDescription,
   DialogHeader,
   DialogTitle,
+  DialogFooter,
+  DialogClose
   
 } from "@/components/ui/dialog"
+import { X } from "lucide-react"
+
+type ConfirmationModalUiProps= {title: string,description: string}
 
 type useConfirmationReturnType = [
-  ConfirmationModalUi: React.FC,
+  ConfirmationModalUi: React.FC<ConfirmationModalUiProps>,
   openConfirmationModal: ()=> Promise<boolean>
 ]
 // Define the type for the promise state
@@ -47,25 +52,29 @@ export default function useConfirmation(): useConfirmationReturnType {
   };
 
   
-  const ConfirmationModalUi = ()=>(
+  const ConfirmationModalUi = ({title,description}: ConfirmationModalUiProps)=>(
       <Dialog open={promise !== null}>
 
-      <DialogContent>
+      <DialogContent closeDialog={setPromise} >
         <DialogHeader>
-          <DialogTitle>Are you absolutely sure?</DialogTitle>
+          <DialogTitle>{title}</DialogTitle>
+          
           <DialogDescription>
-            This action cannot be undone. This will permanently delete your account
-            and remove your data from our servers.
+            {description}
           </DialogDescription>
         </DialogHeader>
-        <div className="flex justify-end ">     
-            <Button onClick={handleConfirm} variant="destructive"  size="lg" className="mr-2"  > Yes </Button>
-          
-          <Button variant="positive"  size="lg" onClick={handleCancel
+        <DialogFooter>
+          <div  className="flex justify-end ">
+<Button onClick={handleConfirm} variant="destructive"  size="lg" className="mr-2"  > Yes </Button>
+
+            <Button variant="positive"  size="lg" onClick={handleCancel
+
+              }> No </Button>
+          </div>
+
+           
+        </DialogFooter>
     
-            }> No </Button>
-        </div>
-          
           
           
           

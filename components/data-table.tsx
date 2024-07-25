@@ -39,7 +39,7 @@ export function DataTable<TData extends Account, TValue>({
   columns,
   data,
   filter,
-  onDelete,
+ onDelete,
   disabled,
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = React.useState<SortingState>([]);
@@ -176,7 +176,8 @@ export function DataTable<TData extends Account, TValue>({
         {table.getFilteredSelectedRowModel().rows.length} of{" "}
         {table.getFilteredRowModel().rows.length} row(s) selected.
       </div>
-       <ConfirmationModalUi />
+       <ConfirmationModalUi title="Are you absolutely sure?" description="This action cannot be undone. This will permanently delete your account
+            and remove your data from our servers." />
     </div>
   );
 }
