@@ -1,10 +1,6 @@
 export default [
    {
-      "name": "fsdafsdf",
+      "name": "hehe",
       "id": "1"
-   },
-   {
-      "name": "sdafsdafew",
-      "id": "2"
    }
 ];
