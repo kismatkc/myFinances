@@ -10,7 +10,7 @@ const createUser = async (data: formData)=> {
    const response = await API.post("/account",data);
 return response.data;
 }
-import useAddNewAccountModal  from "@/hooks/accounts/add-new-account-modal";
+import useAddNewAccountModal  from "@/hooks/accounts/account-sheet-modal";
 
 const useCreateNewAccount = ()=>{
   const { onClose } = useAddNewAccountModal();

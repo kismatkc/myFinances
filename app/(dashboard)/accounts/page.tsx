@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/card";
 import { Loader2, Plus } from "lucide-react";
 import React, { useEffect, useState } from "react";
-import useAddNewAccountModal from "@/hooks/accounts/add-new-account-modal";
+import useAddNewAccountModal from "@/hooks/accounts/account-sheet-modal";
 
 import { Account, columns } from "./columns";
 import { useQuery } from "@tanstack/react-query";
@@ -18,7 +18,7 @@ import API from "@/app/axios";
 import { DataTable } from "@/components/data-table";
 import { Skeleton } from "@/components/ui/skeleton";
 import useDeleteAccount from "@/hooks/accounts/delete-account-hook";
-
+import AccountSheetProvider from "@/components/providers/account-page-sheet-provider";
 
 
 const fetchAccounts = async(): Promise<Account[]>=>{
@@ -36,7 +36,7 @@ const AccountsPage = () => {
   });
     
 
-  const { onOpen } = useAddNewAccountModal();
+  const { onOpen ,actionType} = useAddNewAccountModal();
 const deleteAccounts = useDeleteAccount();
 
    if(isLoading) {
@@ -56,10 +56,16 @@ const deleteAccounts = useDeleteAccount();
 
 
   return (
+    <>
+    
     <Card className="border-none drop-shadow-sm max-w-screen-2xl  mx-auto pb-10 -mt-24">
       <CardHeader className="gap-y-2 lg:flex-row lg:justify-between items-center ">
         <CardTitle className="text-xl line-clamp-1">Accounts page</CardTitle>
-        <Button onClick={onOpen} size="sm">
+        <Button onClick={()=>{
+   onOpen("add")
+  
+          
+        }} size="sm">
           <Plus className="size-4 mr-2" />
           Add new
         </Button>
@@ -72,6 +78,8 @@ deleteAccounts.mutate(jsonData)
         }} columns={columns} data={Account || [{id: "0",name: "defualt"}]} filter="name" />
       </CardContent>
     </Card>
+    <AccountSheetProvider />
+    </>
   );
 };
 

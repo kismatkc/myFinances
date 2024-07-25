@@ -14,7 +14,7 @@ import {
 } from "@/components/ui/dialog"
 import * as VisuallyHidden from '@radix-ui/react-visually-hidden';
 
-import useAddNewAccountModal from "@/hooks/accounts/add-new-account-modal";
+import useAddNewAccountModal from "@/hooks/accounts/account-sheet-modal";
 import NewAccountForm from "./new-account-form";
 
 const NewAccountSheet = () => {

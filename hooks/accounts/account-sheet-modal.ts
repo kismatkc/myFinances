@@ -1,17 +1,20 @@
 
+import { act } from "react";
 import {  create } from "zustand";
 
 
 
 type NewAccountState= {
 isOpen: boolean,
-onOpen: ()=> void;
+actionType: string,
+onOpen: (actionType: string)=> void;
 onClose: ()=> void;
 }
 //use on prefix before methods to change the state 
  const useAddNewAccountModal =  create<NewAccountState>((set)=>({
 isOpen: false,
-onOpen: ()=> set({isOpen: true}),
+actionType: "",
+onOpen: (action: string)=> set({isOpen: true,actionType: action}),
 onClose: ()=> set({isOpen: false})
 
 }))

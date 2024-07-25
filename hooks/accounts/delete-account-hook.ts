@@ -60,7 +60,7 @@ const deleteUser = async (data: { data: string[] }) => {
   return response.data;
 };
 
-import useAddNewAccountModal from "@/hooks/accounts/add-new-account-modal";
+import useAddNewAccountModal from "@/hooks/accounts/account-sheet-modal";
 
 const useDeleteAccount = () => {
   const { onClose } = useAddNewAccountModal();
