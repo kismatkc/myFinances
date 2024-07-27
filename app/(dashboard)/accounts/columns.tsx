@@ -51,11 +51,9 @@ export const columns: ColumnDef<Account>[] = [
       );
     },
   },
-  
-   {
+
+  {
     accessorKey: "actions",
-    cell: ({row}) => (
-      <Actions id={row.original.id} />
-    )
+    cell: ({ row }) => <Actions id={row.original.id} currentFieldValue={row.original.name} />,
   },
 ];

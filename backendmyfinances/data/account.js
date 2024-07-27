@@ -1,10 +1,10 @@
 export default [
    {
-      "name": "sdfsaf",
-      "id": "d"
+      "name": "asdfsd",
+      "id": "1"
    },
    {
-      "name": "jesmmel",
-      "id": "je"
+      "name": "saf",
+      "id": "2"
    }
 ];

@@ -60,11 +60,18 @@ res.status(200).json(accountData);
 
 export const updateUser = async(req,res)=>{
 try {
+const {name,id} = req.body;
 
-let accountData = req.body
-    console.log(accountData);
+const patchedAccountData = accountData.map((account)=> {
+    if(account.id === id){
+        account.name = name
+    }
+    return account
 
-res.status(200).json(accountData);
+})
+writeToFile(patchedAccountData);
+
+res.status(200).json({patchedAccount: req.body});
 } catch (error) {
     console.log("data not recievd")
     res.status(500).json({error: "data not recieved"})
