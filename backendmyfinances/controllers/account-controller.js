@@ -57,3 +57,16 @@ res.status(200).json(accountData);
     res.status(500).json({error: "data not recieved"})
 }
 }
+
+export const updateUser = async(req,res)=>{
+try {
+
+let accountData = req.body
+    console.log(accountData);
+
+res.status(200).json(accountData);
+} catch (error) {
+    console.log("data not recievd")
+    res.status(500).json({error: "data not recieved"})
+}
+}

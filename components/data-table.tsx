@@ -27,6 +27,7 @@ import { Input } from "@/components/ui/input";
 import { Trash } from "lucide-react";
 import { Account } from "@/app/(dashboard)/accounts/columns";
 
+
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
@@ -121,6 +122,7 @@ export function DataTable<TData extends Account, TValue>({
                         )}
                   </TableHead>
                 ))}
+                
               </TableRow>
             ))}
           </TableHeader>
@@ -137,8 +139,13 @@ export function DataTable<TData extends Account, TValue>({
                         cell.column.columnDef.cell,
                         cell.getContext()
                       )}
+                      
                     </TableCell>
+                
                   ))}
+                  
+                  
+                  
                 </TableRow>
               ))
             ) : (
@@ -149,8 +156,10 @@ export function DataTable<TData extends Account, TValue>({
                 >
                   No results.
                 </TableCell>
+                
               </TableRow>
             )}
+            
           </TableBody>
         </Table>
       </div>

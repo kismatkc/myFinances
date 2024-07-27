@@ -3,6 +3,8 @@ import { Button } from "@/components/ui/button";
 import { ColumnDef } from "@tanstack/react-table";
 import { ArrowUpDown, MoreHorizontal } from "lucide-react";
 import { Checkbox } from "@/components/ui/checkbox";
+import Actions from "./actions"
+
 
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
@@ -48,5 +50,12 @@ export const columns: ColumnDef<Account>[] = [
         </Button>
       );
     },
+  },
+  
+   {
+    accessorKey: "actions",
+    cell: ({row}) => (
+      <Actions id={row.original.id} />
+    )
   },
 ];
