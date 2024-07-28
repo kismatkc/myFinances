@@ -7,4 +7,5 @@ router.get("/account",getUser);
 router.post("/account",createUser)
 router.post("/account/delete",deleteUser)
 router.patch("/account/update",updateUser)
+
 export default router;

@@ -2,7 +2,7 @@ import express from "express";
 import dotenv from "dotenv"
 import cors from "cors";
 import mongoose from "mongoose";
-import { ClerkExpressRequireAuth } from "@clerk/clerk-sdk-node";
+
 
 //routes
 import accountRoutes from "./routes/account-routes.js"
@@ -46,6 +46,7 @@ export const connectToDatabase = async () => {
 const port = process.env.PORT || 4200;
 
 app.use(cors());
+
 
 // app.use(ClerkExpressRequireAuth());
 app.use(express.json());

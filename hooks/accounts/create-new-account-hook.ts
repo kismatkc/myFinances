@@ -21,12 +21,14 @@ const queryClient = useQueryClient();
     onMutate: (newAccount)=>{
       toast("Account added successfully")
       queryClient.cancelQueries(
-         ['accounts']
+        {
+          queryKey:    ['accounts']
+        }
       );
       
       const previousAccounts = queryClient.getQueryData(['accounts'] );
       
-      queryClient.setQueryData(   ['accounts'],(old)=> [...old,newAccount]
+      queryClient.setQueryData(   ['accounts'],(old: {id:string,name:string}[])=> [...old,newAccount]
       );
       onClose()
     },

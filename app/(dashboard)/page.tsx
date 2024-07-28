@@ -29,7 +29,7 @@ export default function Home() {
   
   const {data,error,isLoading} = useQuery({
     
-    queryKey: ['dashbaoard'],
+    queryKey: ['accounts'],
     queryFn: fetchData,
   })
 
