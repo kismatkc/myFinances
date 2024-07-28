@@ -4,7 +4,8 @@
 import { useEffect, useState } from "react";
 import { useAuth } from '@clerk/nextjs';
 import { SignOutButton } from "@clerk/nextjs";
-import API, { setUpInterceptor } from "../axios";
+import API from "../axios";
+// import  { setUpInterceptor } "../axios";
 import {  useQuery } from "@tanstack/react-query";
 
 
@@ -14,9 +15,9 @@ import {  useQuery } from "@tanstack/react-query";
 const fetchData = async () => {
 
   try {
-    const response = await API.get("/account");
+    const response = await API.get("/category");
 return response.data;
-    console.log(response.data);
+  
   } catch (err) {
     console.error(err);
   }
@@ -29,7 +30,7 @@ export default function Home() {
   
   const {data,error,isLoading} = useQuery({
     
-    queryKey: ['accounts'],
+    queryKey: ['categories'],
     queryFn: fetchData,
   })
 

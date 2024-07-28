@@ -7,12 +7,12 @@ import {
 } from "@/components/ui/sheet";
 import { DialogContent, DialogTitle } from "@/components/ui/dialog";
 import * as VisuallyHidden from "@radix-ui/react-visually-hidden";
-import EditAccountForm from "./account-edit-form";
+import EditAccountForm from "./category-edit-form";
 
 import accountSheetModal from "@/hooks/account-sheet-modal";
-import NewAccountForm from "./new-account-form";
+import NewAccountForm from "./new-category-form";
 
-const NewAccountSheet = () => {
+const NewCategorySheet = () => {
   const { isOpen, onOpen, onClose, actionType } = accountSheetModal(); //this hook is really handy
 
   if (actionType === "add") {
@@ -26,7 +26,7 @@ const NewAccountSheet = () => {
           <SheetHeader>
             <SheetTitle>New accounts</SheetTitle>
             <SheetDescription>
-              Create new account to track your transcations
+              Create new category to track your transcations
             </SheetDescription>
           </SheetHeader>
           <NewAccountForm />
@@ -43,7 +43,7 @@ const NewAccountSheet = () => {
 
           <SheetHeader>
             <SheetTitle>Edit accounts</SheetTitle>
-            <SheetDescription>Update account details</SheetDescription>
+            <SheetDescription>Update category details</SheetDescription>
           </SheetHeader>
 
           <EditAccountForm />
@@ -53,4 +53,4 @@ const NewAccountSheet = () => {
   }
 };
 
-export default NewAccountSheet;
+export default NewCategorySheet;

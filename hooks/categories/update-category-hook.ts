@@ -7,7 +7,7 @@ import { toast } from "sonner"
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query"
 
 const updateUser = async (data: { id: string, name: string } = { id: "8", name: "jack" }) => {
-  const response = await API.patch("/account/update", data);
+  const response = await API.patch("/category/update", data);
 
   return response.data;
 }
@@ -24,16 +24,16 @@ const useUpdateAccount = () => {
       toast("Account updated successfully")
       queryClient.cancelQueries(
         {
-          queryKey: ['accounts']
+          queryKey: ['categories']
         }
 
       );
 
-      const previousAccounts = queryClient.getQueryData(['accounts']);
+      const previousAccounts = queryClient.getQueryData(['categories']);
 
-      console.log(previousAccounts, "previous accounts")
+      console.log(previousAccounts, "previous categories")
 
-      queryClient.setQueryData(['accounts'], (old: { id: string, name: string }[]) => {
+      queryClient.setQueryData(['categories'], (old: { id: string, name: string }[]) => {
 
         const newData = old.map((account) => {
           console.log(old, "oldData")
@@ -54,7 +54,7 @@ const useUpdateAccount = () => {
     onSuccess: () => {
 
       queryClient.invalidateQueries({
-        queryKey: ['accounts']
+        queryKey: ['categories']
       })
 
 
@@ -63,7 +63,7 @@ const useUpdateAccount = () => {
 
     },
     onError: (err, deletedData, context) => {
-      queryClient.setQueryData(['accounts'], context?.previousAccounts)
+      queryClient.setQueryData(['categories'], context?.previousAccounts)
       toast("Account not updated please try again")
     }
   })

@@ -9,7 +9,7 @@ import { FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessa
 import { Input } from './ui/input';
 import { Button } from './ui/button';
 import API from '@/app/axios';
-import useCreateNewAccount from "@/hooks/accounts/create-new-account-hook"
+import useCreateNewAccount from "@/hooks/categories/create-new-category-hook"
 
 const formSchema = z.object({
   name: z.string().min(2, {
@@ -29,7 +29,7 @@ export type formData = z.infer<typeof formSchema>;
 
 export const createUser = async (data: formData)=> {
    
-   const response = await API.post("/account",data);
+   const response = await API.post("/category",data);
  
 return response.data;
 }

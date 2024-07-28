@@ -14,7 +14,7 @@ import {
 import { Input } from "./ui/input";
 import { Button } from "./ui/button";
 import API from "@/app/axios";
-import useUpdateAccount from "@/hooks/accounts/update-account-hook";
+import useUpdateAccount from "@/hooks/categories/update-category-hook";
 import useAddNewAccountModal from "@/hooks/account-sheet-modal";
 
 const formSchema = z.object({

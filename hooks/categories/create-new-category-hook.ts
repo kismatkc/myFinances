@@ -7,7 +7,7 @@ import { toast } from "sonner"
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query"
 
 const createUser = async (data: formData) => {
-  const response = await API.post("/account", data);
+  const response = await API.post("/category", data);
   return response.data;
 }
 import useAddNewAccountModal from "@/hooks/account-sheet-modal";
@@ -22,13 +22,13 @@ const useCreateNewAccount = () => {
       toast("Account added successfully")
       queryClient.cancelQueries(
         {
-          queryKey: ['accounts']
+          queryKey: ['categories']
         }
       );
 
-      const previousAccounts = queryClient.getQueryData(['accounts']);
+      const previousAccounts = queryClient.getQueryData(['categories']);
 
-      queryClient.setQueryData(['accounts'], (old: { id: string, name: string }[]) => [...old, newAccount]
+      queryClient.setQueryData(['categories'], (old: { id: string, name: string }[]) => [...old, newAccount]
       );
       onClose()
 
@@ -38,7 +38,7 @@ const useCreateNewAccount = () => {
     onSuccess: () => {
 
       queryClient.invalidateQueries({
-        queryKey: ['accounts']
+        queryKey: ['categories']
       })
 
 
@@ -47,7 +47,7 @@ const useCreateNewAccount = () => {
 
     },
     onError: (context: { previousAccounts: { id: string, name: string }[] }) => {
-      queryClient.setQueryData(['accounts'], context?.previousAccounts)
+      queryClient.setQueryData(['categories'], context?.previousAccounts)
       toast("Account not added please try again")
     }
   })

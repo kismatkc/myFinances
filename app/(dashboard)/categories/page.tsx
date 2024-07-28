@@ -12,30 +12,34 @@ import { Loader2, Plus } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import useAddNewAccountModal from "@/hooks/account-sheet-modal";
 
-import { Account, columns } from "./columns";
+import { Category, columns } from "./columns";
 import { useQuery } from "@tanstack/react-query";
 import API from "@/app/axios";
 import { DataTable } from "@/components/data-table";
 import { Skeleton } from "@/components/ui/skeleton";
-import useDeleteAccount from "@/hooks/accounts/delete-account-hook";
-import AccountSheetProvider from "@/components/providers/account-page-sheet-provider";
+import useDeleteAccount from "@/hooks/categories/delete-category-hook";
+import CategorySheetProvider from "@/components/providers/category-page-sheet-provider";
 
-const fetchAccounts = async (): Promise<Account[]> => {
-  const response = await API.get("/account");
+
+const fetchAccounts = async(): Promise<Category[]>=>{
+  const response =await  API.get('/category');
   return response.data;
-};
+}
+
+
 
 //fetch data
 const AccountsPage = () => {
-  const { data: Account, isLoading } = useQuery({
+  const {data: Account,isLoading} = useQuery({
     queryKey: ["accounts"],
     queryFn: fetchAccounts,
   });
+    
 
-  const { onOpen, actionType } = useAddNewAccountModal();
-  const deleteAccounts = useDeleteAccount();
+  const { onOpen ,actionType} = useAddNewAccountModal();
+const deleteAccounts = useDeleteAccount();
 
-  if (isLoading) {
+   if(isLoading) {
     return (
       <Card className="border-none drop-shadow-sm max-w-screen-2xl  mx-auto pb-10 -mt-24">
         <CardHeader className="gap-y-2 lg:flex-row lg:justify-between items-center  ">
@@ -48,13 +52,16 @@ const AccountsPage = () => {
         </CardContent>
       </Card>
     );
-  }
+   }
+
 
   return (
     <>
       <Card className="border-none drop-shadow-sm max-w-screen-2xl  mx-auto pb-10 -mt-24">
         <CardHeader className="gap-y-2 lg:flex-row lg:justify-between items-center ">
-          <CardTitle className="text-xl line-clamp-1">Accounts page</CardTitle>
+          <CardTitle className="text-xl line-clamp-1">
+            Categories page
+          </CardTitle>
           <Button
             onClick={() => {
               onOpen("add");
@@ -77,7 +84,7 @@ const AccountsPage = () => {
           />
         </CardContent>
       </Card>
-      <AccountSheetProvider />
+      <CategorySheetProvider />
     </>
   );
 };

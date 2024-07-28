@@ -1,12 +1,12 @@
-import Account from "../models/account-model.js";
-import accountData from '../data/account.js';
+import Category from "../models/category-model.js";
+import categoryData from '../data/category.js';
 import fs from "fs"
 import path from "path"
 import {  fileURLToPath} from "url";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename)
-const fullPathToData = path.join(__dirname,"../data/account.js");
+const fullPathToData = path.join(__dirname,"../data/category.js");
 
 const writeToFile = (data)=>{
     fs.writeFileSync(fullPathToData,`export default ${JSON.stringify(data,null,3)};`)
@@ -18,15 +18,15 @@ export const deleteUser = async(req,res)=>{
 
 try {
      const deleteAccount = new Set(req.body.data);
-     const newAccountData = accountData.filter(
+     const newCategoryData = categoryData.filter(
        (item) => !item.id === deleteAccount.has(item.id)
      );
-     writeToFile(newAccountData);
+     writeToFile(newCategoryData);
 } catch (error) {
     console.log("backkend error",error)
 }
 
-res.status(200).json({success: "Account created"})
+res.status(200).json({success: "category created"})
 }
 
 export const getUser = async(req,res)=>{
@@ -35,7 +35,7 @@ export const getUser = async(req,res)=>{
     try {
    
       
-        res.status(200).json(accountData);
+        res.status(200).json(categoryData);
 
     } catch (error) {
         res.status(500).json({error: error})
@@ -49,9 +49,9 @@ try {
 accountData.push(req.body);
     
     
-    writeToFile(accountData)
+    writeToFile(categoryData);
   
-res.status(200).json(accountData);
+res.status(200).json(categoryData);
 } catch (error) {
     console.log("data not recievd")
     res.status(500).json({error: "data not recieved"})
@@ -62,16 +62,15 @@ export const updateUser = async(req,res)=>{
 try {
 const {name,id} = req.body;
 
-const patchedAccountData = accountData.map((Category)=> {
-    if(Category.id === id){
-        Category.name = name
-    }
-    return Category
+const patchedCategoryData = categoryData.map((category) => {
+  if (category.id === id) {
+    category.name = name;
+  }
+  return category;
+});
+writeToFile(patchedCategoryData);
 
-})
-writeToFile(patchedAccountData);
-
-res.status(200).json({patchedAccount: req.body});
+res.status(200).json({patchedCategory: req.body});
 } catch (error) {
     console.log("data not recievd")
     res.status(500).json({error: "data not recieved"})

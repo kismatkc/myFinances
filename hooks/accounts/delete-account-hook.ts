@@ -60,7 +60,7 @@ const deleteUser = async (data: { data: string[] }) => {
   return response.data;
 };
 
-import useAddNewAccountModal from "@/hooks/accounts/account-sheet-modal";
+import useAddNewAccountModal from "@/hooks/account-sheet-modal";
 
 const useDeleteAccount = () => {
   const { onClose } = useAddNewAccountModal();
@@ -73,7 +73,12 @@ const useDeleteAccount = () => {
       const previousAccounts = queryClient.getQueryData(['accounts']);
 
       queryClient.setQueryData(['accounts'], (old: string[]) => {
-        return old.filter((account: any) => !deletedData.data.includes(account.id));
+
+        let newData = old.filter((account: any) => !deletedData.data.includes(account.id));
+        console.log(newData)
+        return newData
+
+
       });
 
       return { previousAccounts };
