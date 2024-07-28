@@ -6,6 +6,7 @@ import ReactQueryProviderWrapper from "@/components/providers/reactquery-provide
 import { Toaster } from "@/components/ui/sonner";
 
 
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -24,13 +25,15 @@ export default function RootLayout({
   return (
     <ReactQueryProviderWrapper>
       {/* <ClerkProvider> */}
-        <html lang="en">
-          <body className={inter.className}>
-            {/* <AccountSheetProvider /> */}
-            <Toaster />
-            {children}
-          </body>
-        </html>
+      <html lang="en">
+        <body className={inter.className}>
+          {/* <AccountSheetProvider /> */}
+          <Toaster />
+          {children}
+
+          <ReactQueryDevtools initialIsOpen={false} />
+        </body>
+      </html>
       {/* </ClerkProvider> */}
     </ReactQueryProviderWrapper>
   );

@@ -72,7 +72,7 @@ const useDeleteAccount = () => {
       await queryClient.cancelQueries({ queryKey: ['accounts'] });
       const previousAccounts = queryClient.getQueryData(['accounts']);
 
-      queryClient.setQueryData(['accounts'], (old: any) => {
+      queryClient.setQueryData(['accounts'], (old: string[]) => {
         return old.filter((account: any) => !deletedData.data.includes(account.id));
       });
 

@@ -31,6 +31,8 @@ const queryClient = useQueryClient();
       queryClient.setQueryData(   ['accounts'],(old: {id:string,name:string}[])=> [...old,newAccount]
       );
       onClose()
+
+      return { previousAccounts }
     },
     
     onSuccess:()=>{
@@ -44,7 +46,8 @@ const queryClient = useQueryClient();
                                    
       
     },
-    onError: ()=>{
+    onError: (context: { previousAccounts : {id: string,name: string}[]})=>{
+      queryClient.setQueryData(['accounts'], context?.previousAccounts)
       toast("Account not added please try again")
     }
   })
