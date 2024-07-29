@@ -7,6 +7,7 @@ import { toast } from "sonner"
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query"
 
 const createUser = async (data: formData) => {
+
   const response = await API.post("/account", data);
   return response.data;
 }
@@ -19,6 +20,8 @@ const useCreateNewAccount = () => {
 
     mutationFn: createUser,
     onMutate: (newAccount) => {
+     
+      
       toast("Account added successfully")
       queryClient.cancelQueries(
         {
@@ -28,14 +31,19 @@ const useCreateNewAccount = () => {
 
       const previousAccounts = queryClient.getQueryData(['accounts']);
 
-      queryClient.setQueryData(['accounts'], (old: { id: string, name: string }[]) => [...old, newAccount]
+
+      queryClient.setQueryData(['accounts'], (old: { name: string }[]) => [...old, newAccount]
+      
       );
+   
+      
       onClose()
 
       return { previousAccounts }
     },
 
-    onSuccess: () => {
+    onSuccess: (data) => {
+console.log(data);
 
       queryClient.invalidateQueries({
         queryKey: ['accounts']

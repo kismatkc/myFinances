@@ -30,25 +30,26 @@ const AccountsPage = () => {
   const { data: Account, isLoading } = useQuery({
     queryKey: ["accounts"],
     queryFn: fetchAccounts,
+    initialData: [{id: "1",name: "default1"}]
   });
 
   const { onOpen, actionType } = useAddNewAccountModal();
   const deleteAccounts = useDeleteAccount();
 
-  if (isLoading) {
-    return (
-      <Card className="border-none drop-shadow-sm max-w-screen-2xl  mx-auto pb-10 -mt-24">
-        <CardHeader className="gap-y-2 lg:flex-row lg:justify-between items-center  ">
-          <Skeleton className="h-8 w-48" />
-        </CardHeader>
-        <CardContent>
-          <div className="h-[500px] w-full flex items-center justify-center">
-            <Loader2 className="size-10 text-slate-200 animate-spin" />
-          </div>
-        </CardContent>
-      </Card>
-    );
-  }
+  // if (isLoading) {
+  //   return (
+  //     <Card className="border-none drop-shadow-sm max-w-screen-2xl  mx-auto pb-10 -mt-24">
+  //       <CardHeader className="gap-y-2 lg:flex-row lg:justify-between items-center  ">
+  //         <Skeleton className="h-8 w-48" />
+  //       </CardHeader>
+  //       <CardContent>
+  //         <div className="h-[500px] w-full flex items-center justify-center">
+  //           <Loader2 className="size-10 text-slate-200 animate-spin" />
+  //         </div>
+  //       </CardContent>
+  //     </Card>
+  //   );
+  // }
 
   return (
     <>
