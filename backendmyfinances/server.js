@@ -56,7 +56,7 @@ app.use("/api",accountRoutes);
 app.use("/api",categoryRoutes);
 
 
-
+// connectToDatabase();
 app.listen(port, () => {
   console.log(`Server running at http://localhost:${port}`);
 });

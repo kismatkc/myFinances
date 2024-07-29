@@ -1,15 +1,8 @@
 import mongoose, { Document, Schema } from 'mongoose';
 import {v4 as uuidv4} from 'uuid';
 
-interface IAccount extends Document {
-    name: string;
-    userId: string;
-    plaidId: string;
-    createdAt?: Date;
-    updatedAt?: Date;
-}
 
-const accountSchema: Schema = new Schema(
+const accountSchema = new Schema(
     {
         name: {
             type: String,
@@ -34,5 +27,5 @@ const accountSchema: Schema = new Schema(
     }
 );
 
-const Account = mongoose.model<IAccount>('Account', accountSchema);
+const Account = mongoose.model('Account', accountSchema);
 export default Account;
