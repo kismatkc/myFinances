@@ -10,7 +10,7 @@ import * as VisuallyHidden from "@radix-ui/react-visually-hidden";
 import EditAccountForm from "./category-edit-form";
 
 import accountSheetModal from "@/hooks/account-sheet-modal";
-import NewAccountForm from "./new-category-form";
+import NewCategoryForm from "./new-category-form";
 
 const NewCategorySheet = () => {
   const { isOpen, onOpen, onClose, actionType } = accountSheetModal(); //this hook is really handy
@@ -29,7 +29,7 @@ const NewCategorySheet = () => {
               Create new category to track your transcations
             </SheetDescription>
           </SheetHeader>
-          <NewAccountForm />
+          <NewCategoryForm />
         </SheetContent>
       </Sheet>
     );

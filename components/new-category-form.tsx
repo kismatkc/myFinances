@@ -66,7 +66,7 @@ const NewAccountForm: React.FC = () => {
             <FormItem>
               <FormLabel>Id</FormLabel>
               <FormControl>
-                <Input placeholder="Enter username" {...field} />
+                <Input placeholder="Enter category" {...field} />
               </FormControl>
 
               <FormMessage>

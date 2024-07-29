@@ -4,10 +4,7 @@ import { Interface } from "readline";
 
 
 const accountSchema = new mongoose.Schema({
-id: {
-    type: String,
-    required: [true,"Id required"]
-    }, name: {
+ name: {
         type: String,
         required: [true, "Name required"]
     }, userId: {

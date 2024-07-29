@@ -31,7 +31,7 @@ const fetchAccounts = async(): Promise<Category[]>=>{
 //fetch data
 const AccountsPage = () => {
   const {data: Account,isLoading} = useQuery({
-    queryKey: ["accounts"],
+    queryKey: ["categories"],
     queryFn: fetchAccounts,
   });
     

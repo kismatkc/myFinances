@@ -3,11 +3,9 @@
 import axios from 'axios';
 
 const API = axios.create({
-  // baseURL: 'https://047f506f-4c2d-464f-98b3-3d25be80afd1-00-14ttlg9ajb0tp.spock.replit.dev/api',
-    baseURL: "http://localhost:4200/api",
-  headers: {
-    'Content-Type': 'application/json'
-  },
+  baseURL: 'https://047f506f-4c2d-464f-98b3-3d25be80afd1-00-14ttlg9ajb0tp.spock.replit.dev/api',
+    // baseURL: "http://localhost:4200/api",
+  
 
 });
 

@@ -58,7 +58,7 @@ const EditAccountForm: React.FC = () => {
             <FormItem>
               <FormLabel>Username</FormLabel>
               <FormControl>
-                <Input placeholder="Enter username" {...field} />
+                <Input placeholder="Enter category" {...field} />
               </FormControl>
               <FormMessage>
                 {formMethods.formState.errors.name?.message}
