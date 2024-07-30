@@ -9,32 +9,33 @@ import { connectToDatabase } from "../server.js";
 export const deleteUser = async(req,res)=>{
    
 
-try {
-     
+    try {
+    await connectToDatabase();
+        
+   const deleteAccount =await Account.deleteMany({_id: {$id: req.body.data}})
+            res.status(200).json(deleteAccount);
+
+    }catch(error){
 
 
+        res.status(500).json({message:"error"})
 
 
-}catch(error){
-
-
-    
-
-
-}
+    }
 }
 
 export const getUser = async(req,res)=>{
 
 
     try {
-
-    
+await connectToDatabase();
+    const getAllAccountNames = await Account.find({},"name")
+        res.status(200).json(getAllAccountNames);
 
 }catch(error){
 
 
-    
+    res.status(500).json({message:"error"})
 
 
 }
