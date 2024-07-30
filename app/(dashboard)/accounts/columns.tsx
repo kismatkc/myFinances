@@ -9,7 +9,7 @@ import Actions from "./actions"
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
 export type Account = {
-  id: string;
+  _id: string;
   name: string;
  
 };
@@ -54,6 +54,6 @@ export const columns: ColumnDef<Account>[] = [
 
   {
     accessorKey: "actions",
-    cell: ({ row }) => <Actions id={row.original.id} currentFieldValue={row.original.name} />,
+    cell: ({ row }) => <Actions id={row.original._id} currentFieldValue={row.original.name} />,
   },
 ];

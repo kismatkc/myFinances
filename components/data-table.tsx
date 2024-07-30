@@ -93,7 +93,8 @@ export function DataTable<TData extends Account, TValue>({
       
               const data = table
                 .getFilteredSelectedRowModel()
-                .rows.map((item) => item.original.id);
+                .rows.map((item) => item.original._id);
+        
               onDelete(data);
               table.resetRowSelection();
       }

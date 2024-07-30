@@ -36,20 +36,20 @@ const AccountsPage = () => {
   const { onOpen, actionType } = useAddNewAccountModal();
   const deleteAccounts = useDeleteAccount();
 
-  // if (isLoading) {
-  //   return (
-  //     <Card className="border-none drop-shadow-sm max-w-screen-2xl  mx-auto pb-10 -mt-24">
-  //       <CardHeader className="gap-y-2 lg:flex-row lg:justify-between items-center  ">
-  //         <Skeleton className="h-8 w-48" />
-  //       </CardHeader>
-  //       <CardContent>
-  //         <div className="h-[500px] w-full flex items-center justify-center">
-  //           <Loader2 className="size-10 text-slate-200 animate-spin" />
-  //         </div>
-  //       </CardContent>
-  //     </Card>
-  //   );
-  // }
+  if (isLoading) {
+    return (
+      <Card className="border-none drop-shadow-sm max-w-screen-2xl  mx-auto pb-10 -mt-24">
+        <CardHeader className="gap-y-2 lg:flex-row lg:justify-between items-center  ">
+          <Skeleton className="h-8 w-48" />
+        </CardHeader>
+        <CardContent>
+          <div className="h-[500px] w-full flex items-center justify-center">
+            <Loader2 className="size-10 text-slate-200 animate-spin" />
+          </div>
+        </CardContent>
+      </Card>
+    );
+  }
 
   return (
     <>
@@ -69,11 +69,12 @@ const AccountsPage = () => {
         <CardContent>
           <DataTable
             onDelete={(data) => {
-              let jsonData = { data };
-              deleteAccounts.mutate(jsonData);
+              
+              
+              deleteAccounts.mutate({data});
             }}
             columns={columns}
-            data={Account || [{ id: "0", name: "defualt" }]}
+            data={Account || [{ _id: "0", name: "defualt" }]}
             filter="name"
           />
         </CardContent>

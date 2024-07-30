@@ -13,7 +13,7 @@ onClose: ()=> void;
 
   //edit related props
   actionType: string,
-  id: string,
+  _id: string,
   currentFieldValue: string,
    updatedcurrentFieldValue: string,
    setId: (id: string)=> void,
@@ -23,13 +23,13 @@ onClose: ()=> void;
  const useAddNewAccountModal =  create<NewAccountState>((set)=>({
 isOpen: false,
 actionType: "",
-   id: "",
+   _id: "",
    currentFieldValue: "",
     updatedcurrentFieldValue: "string",
 
 onOpen: (action: string)=> set({isOpen: true,actionType: action}),
 onClose: ()=> set({isOpen: false}),
-    setId: (accountId: string) => set({ id: accountId}),
+    setId: (accountId: string) => set({ _id: accountId}),
     setNewName: (currentFieldValue: string) => set({ currentFieldValue: currentFieldValue })
 
 }))
