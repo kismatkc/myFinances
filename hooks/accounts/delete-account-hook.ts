@@ -4,12 +4,19 @@ import { toast } from "sonner";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 const deleteUser = async (data: { data: string[]}) => {
-  const response = await API.post("/account/delete", {data});
-  console.log(response.data,"delete hook");
 
-  console.log(response.data);
   
+  
+  try {
+    const response = await API.post("/account/delete", data);
+    console.log(response.data,"delete hook");
+      
   return response.data;
+} catch (error) {
+  console.log(error);
+  
+}
+
 };
 
 import useAddNewAccountModal from "@/hooks/account-sheet-modal";

@@ -31,7 +31,7 @@ const formSchema = z.object({
 export type formData = z.infer<typeof formSchema>;
 
 const EditAccountForm: React.FC = () => {
-  const { id, currentFieldValue } = useAddNewAccountModal();
+  const { _id, currentFieldValue } = useAddNewAccountModal();
   const formMethods = useForm<formData>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -41,8 +41,10 @@ const EditAccountForm: React.FC = () => {
 
   const mutation = useUpdateAccount();
 
-  const onSubmit: SubmitHandler<formData> = (data) => {
-    mutation.mutate({ id, name: data.name });
+  const onSubmit = ({name}: {name: string}) => {
+
+    
+    mutation.mutate({_id,name});
   };
 
   const watchName = formMethods.watch("name");

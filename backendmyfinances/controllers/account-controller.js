@@ -11,14 +11,16 @@ export const deleteUser = async(req,res)=>{
 
     try {
     await connectToDatabase();
+  
+     
         
-   const deleteAccount =await Account.deleteMany({_id: {$id: req.body.data}})
+   const deleteAccount =await Account.deleteMany({_id: {$in: req.body.data}})
             res.status(200).json(deleteAccount);
 
     }catch(error){
 
 
-        res.status(500).json({message:"error"})
+        res.status(500).json({message:error})
 
 
     }
@@ -66,16 +68,24 @@ res.status(500).json({error: error})
 }
 }
 
-export const updateUser = async(req,res)=>{
-try {
-     
-
-
-}catch(error){
-
-
+export const updateUser =  async (req,res)=>{
+    try {
+       await connectToDatabase();
+      
+          const {_id,name} = req.body
+          console.log(_id,name);
+          
+            
+    const updatedAccount =  await Account.findByIdAndUpdate(_id,{name},{new: true,runValidators: true})
+  
+                res.status(200).json(updatedAccount);
+          
     
-
-
-}
+        }catch(error){
+    
+    
+            res.status(500).json({message:error})
+    
+    
+        }
 }

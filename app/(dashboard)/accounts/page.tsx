@@ -30,7 +30,7 @@ const AccountsPage = () => {
   const { data: Account, isLoading } = useQuery({
     queryKey: ["accounts"],
     queryFn: fetchAccounts,
-    initialData: [{id: "1",name: "default1"}]
+    initialData: [{_id: "1",name: "default1"}]
   });
 
   const { onOpen, actionType } = useAddNewAccountModal();
