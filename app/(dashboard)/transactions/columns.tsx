@@ -8,13 +8,13 @@ import Actions from "./actions"
 
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
-export type Category = {
+export type Account = {
   _id: string;
   name: string;
  
 };
 
-export const columns: ColumnDef<Category>[] = [
+export const columns: ColumnDef<Account>[] = [
   {
     id: "select",
     header: ({ table }) => (
@@ -45,7 +45,7 @@ export const columns: ColumnDef<Category>[] = [
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          Category
+          Name
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       );
@@ -54,8 +54,6 @@ export const columns: ColumnDef<Category>[] = [
 
   {
     accessorKey: "actions",
-    cell: ({ row }) => (
-      <Actions _id={row.original._id} currentFieldValue={row.original.name} />
-    ),
+    cell: ({ row }) => <Actions id={row.original._id} currentFieldValue={row.original.name} />,
   },
 ];

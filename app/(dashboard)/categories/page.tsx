@@ -12,7 +12,7 @@ import { Loader2, Plus } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import useAddNewAccountModal from "@/hooks/account-sheet-modal";
 
-import { Account, columns } from "./columns";
+import { Category, columns } from "./columns";
 import { useQuery } from "@tanstack/react-query";
 import API from "@/app/axios";
 import { DataTable } from "@/components/data-table";
@@ -23,14 +23,12 @@ import CategorySheetProvider from "@/components/providers/category-page-sheet-pr
 
 
 
-const fetchAccounts = async(): Promise<Account[]>=>{
-  const params = 
-    
-    {modelName: "Category"}
-  
-  const response =await  API.get('/name',{params});
+const fetchAccounts = async (): Promise<Category[]> => {
+  const params = { modelName: "Category" };
+
+  const response = await API.get("/name", { params });
   return response.data;
-}
+};
 
 
 
@@ -49,7 +47,7 @@ const deleteAccounts = useDeleteAccount();
 
    if(isLoading) {
     return (
-      <Card className="border-none drop-shadow-sm max-w-screen-2xl  mx-auto pb-10 -mt-24">
+      <Card className="border-none  drop-shadow-sm max-w-screen-2xl  mx-auto pb-10 -mt-24">
         <CardHeader className="gap-y-2 lg:flex-row lg:justify-between items-center  ">
           <Skeleton className="h-8 w-48" />
         </CardHeader>

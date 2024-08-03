@@ -1,3 +1,4 @@
+import { timeStamp } from 'console';
 import mongoose, { Schema } from 'mongoose';
 import { v4 as uuidv4 } from 'uuid';
 const TransactionSchema= new Schema({
@@ -35,12 +36,11 @@ const TransactionSchema= new Schema({
                         ref: "Category",
                         required: true
                     },
-                        {
-                        timestamps: true
-                    },
-
+                     
 
     
+},{
+    timestamps: true
 })
 
 const Transaction = mongoose.model("Transaction",TransactionSchema)

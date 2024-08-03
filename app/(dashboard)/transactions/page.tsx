@@ -9,21 +9,31 @@ import {
   CardFooter,
 } from "@/components/ui/card";
 import { Loader2, Plus } from "lucide-react";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import useAddNewAccountModal from "@/hooks/account-sheet-modal";
 
-import {  columns } from "./columns";
-
+import { Account, columns } from "./columns";
+import { useQuery } from "@tanstack/react-query";
+import API from "@/app/axios";
 import { DataTable } from "@/components/data-table";
 import { Skeleton } from "@/components/ui/skeleton";
 import useDeleteAccount from "@/hooks/accounts/delete-account-hook";
-import AccountSheetProvider from "@/components/providers/account-page-sheet-provider";
-import useGetAllAccounts from "@/hooks/accounts/get-all-accounts-hook";
+import TransactionsSheetProvider from "@/components/providers/transaction-page-sheet-provider";
 
+const fetchTransactions = async (): Promise<Transaction[]> => {
+ 
+  const response = await API.get("/name");
+
+  return response.data;
+};
 
 //fetch data
 const AccountsPage = () => {
-const {isLoading,data: Account} = useGetAllAccounts();
+  const { data: Account, isLoading } = useQuery({
+    queryKey: ["transactions"],
+    queryFn: fetchTransactions,
+    initialData: [{ _id: "1", name: "default1" }],
+  });
 
   const { onOpen, actionType } = useAddNewAccountModal();
   const deleteAccounts = useDeleteAccount();
@@ -47,7 +57,9 @@ const {isLoading,data: Account} = useGetAllAccounts();
     <>
       <Card className="border-none drop-shadow-sm max-w-screen-2xl  mx-auto pb-10 -mt-24">
         <CardHeader className="gap-y-2 lg:flex-row lg:justify-between items-center ">
-          <CardTitle className="text-xl line-clamp-1">Accounts page</CardTitle>
+          <CardTitle className="text-xl line-clamp-1">
+            Transactions page
+          </CardTitle>
           <Button
             onClick={() => {
               onOpen("add");
@@ -61,9 +73,7 @@ const {isLoading,data: Account} = useGetAllAccounts();
         <CardContent>
           <DataTable
             onDelete={(data) => {
-              
-              
-              deleteAccounts.mutate({data});
+              deleteAccounts.mutate({ data });
             }}
             columns={columns}
             data={Account}
@@ -71,7 +81,7 @@ const {isLoading,data: Account} = useGetAllAccounts();
           />
         </CardContent>
       </Card>
-      <AccountSheetProvider />
+      <TransactionsSheetProvider />
     </>
   );
 };
