@@ -12,7 +12,7 @@ import { Loader2, Plus } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import useAddNewAccountModal from "@/hooks/account-sheet-modal";
 
-import { Category, columns } from "./columns";
+import { Account, columns } from "./columns";
 import { useQuery } from "@tanstack/react-query";
 import API from "@/app/axios";
 import { DataTable } from "@/components/data-table";
@@ -21,18 +21,26 @@ import useDeleteAccount from "@/hooks/categories/delete-category-hook";
 import CategorySheetProvider from "@/components/providers/category-page-sheet-provider";
 
 
-const fetchAccounts = async(): Promise<Category[]>=>{
-  const response =await  API.get('/category');
+
+
+const fetchAccounts = async(): Promise<Account[]>=>{
+  const params = 
+    
+    {modelName: "Category"}
+  
+  const response =await  API.get('/name',{params});
   return response.data;
 }
 
 
 
+
 //fetch data
 const AccountsPage = () => {
-  const {data: Account,isLoading} = useQuery({
+  const {data,isLoading} = useQuery({
     queryKey: ["categories"],
     queryFn: fetchAccounts,
+    initialData: [{name: "hello",_id: "1"}]
   });
     
 
@@ -79,7 +87,7 @@ const deleteAccounts = useDeleteAccount();
               deleteAccounts.mutate(jsonData);
             }}
             columns={columns}
-            data={Account || [{ id: "0", name: "defualt" }]}
+            data={data}
             filter="name"
           />
         </CardContent>

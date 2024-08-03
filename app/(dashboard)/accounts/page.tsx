@@ -21,7 +21,11 @@ import useDeleteAccount from "@/hooks/accounts/delete-account-hook";
 import AccountSheetProvider from "@/components/providers/account-page-sheet-provider";
 
 const fetchAccounts = async (): Promise<Account[]> => {
-  const response = await API.get("/account");
+  const params = {
+    modelName: "Account"
+  }
+  const response = await API.get("/name",{params});
+  console.log("fetchAccounts",response.data)
   return response.data;
 };
 
@@ -74,7 +78,7 @@ const AccountsPage = () => {
               deleteAccounts.mutate({data});
             }}
             columns={columns}
-            data={Account || [{ _id: "0", name: "defualt" }]}
+            data={Account}
             filter="name"
           />
         </CardContent>

@@ -1,8 +1,8 @@
-import mongoose, { Document, Schema } from 'mongoose';
+import mongoose, { Schema } from 'mongoose';
 import {v4 as uuidv4} from 'uuid';
 
 
-const accountSchema = new Schema(
+const accountAndCategorySchema= new Schema(
     {
         name: {
             type: String,
@@ -27,5 +27,5 @@ const accountSchema = new Schema(
     }
 );
 
-const Account = mongoose.model('Account', accountSchema);
-export default Account;
+export const Account = mongoose.model('Account', accountAndCategorySchema);
+export const Category = mongoose.model('Category', accountAndCategorySchema)

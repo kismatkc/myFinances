@@ -7,7 +7,8 @@ import { toast } from "sonner"
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query"
 
 const createUser = async (data: formData) => {
-  const response = await API.post("/category", data);
+  let dataWithModelName = {...data,modelName: "Category"}
+  const response = await API.post("/name/create", dataWithModelName);
   return response.data;
 }
 import useAddNewAccountModal from "@/hooks/account-sheet-modal";

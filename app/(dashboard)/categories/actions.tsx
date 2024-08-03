@@ -10,10 +10,10 @@ import { Edit, MoreHorizontal } from "lucide-react";
 import useAccountModal from "@/hooks/account-sheet-modal";
 
 export default function Actions({
-  id,
+  _id,
   currentFieldValue,
 }: {
-  id: string;
+  _id: string;
   currentFieldValue: string;
 }) {
   const { onOpen, setId, setNewName } = useAccountModal();
@@ -29,7 +29,7 @@ export default function Actions({
         <DropdownMenuItem
           onClick={() => {
             onOpen("edit");
-            setId(id);
+            setId(_id);
             setNewName(currentFieldValue);
           }}
         >

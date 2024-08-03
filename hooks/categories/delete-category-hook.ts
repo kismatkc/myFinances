@@ -5,7 +5,8 @@ import { toast } from "sonner";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 const deleteUser = async (data: { data: string[] }) => {
-  const response = await API.post("/category/delete", data);
+    let dataWithModelName = {...data,modelName: "Category"}
+  const response = await API.post("/name/delete", dataWithModelName);
   return response.data;
 };
 

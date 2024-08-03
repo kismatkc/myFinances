@@ -15,7 +15,7 @@ import {  useQuery } from "@tanstack/react-query";
 const fetchData = async () => {
 
   try {
-    const response = await API.get("/category");
+    const response = await API.get("/name");
 return response.data;
   
   } catch (err) {
@@ -25,13 +25,16 @@ return response.data;
 
 export default function Home() {
 
-  const [obj, setData] = useState(null);
+  
   
   
   const {data,error,isLoading} = useQuery({
     
-    queryKey: ['categories'],
-    queryFn: fetchData,
+    queryKey: ['accounts'],
+    queryFn: fetchData
+    ,initialData: [{name: "hello",id: "1"}]
+      
+    
   })
 
 

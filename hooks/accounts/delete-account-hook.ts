@@ -5,11 +5,11 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 const deleteUser = async (data: { data: string[]}) => {
 
-  
+  let dataWithModelName = {...data,modelName: "Account"}
   
   try {
-    const response = await API.post("/account/delete", data);
-    console.log(response.data,"delete hook");
+    const response = await API.post("/name/delete", dataWithModelName);
+    
       
   return response.data;
 } catch (error) {

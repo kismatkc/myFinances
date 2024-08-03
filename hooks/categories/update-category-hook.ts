@@ -6,8 +6,9 @@ import API
 import { toast } from "sonner"
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query"
 
-const updateUser = async (data: { id: string, name: string } = { id: "8", name: "jack" }) => {
-  const response = await API.patch("/category/update", data);
+const updateUser = async (data: { _id: string, name: string }) => {
+    let dataWithModelName = {...data,modelName: "Category"}
+  const response = await API.patch("/name/update", dataWithModelName);
 
   return response.data;
 }
@@ -19,7 +20,7 @@ const useUpdateAccount = () => {
   return useMutation({
 
     mutationFn: updateUser,
-    onMutate: (updateAccount: { id: string, name: string }) => {
+    onMutate: (updateAccount: { _id: string, name: string }) => {
       console.log(updateAccount)
       toast("Account updated successfully")
       queryClient.cancelQueries(
@@ -37,7 +38,7 @@ const useUpdateAccount = () => {
 
         const newData = old.map((account) => {
           console.log(old, "oldData")
-          if (account.id === updateAccount.id) {
+          if (account.id === updateAccount._id) {
             return { ...account, name: updateAccount.name };
           }
           return account

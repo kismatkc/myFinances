@@ -7,20 +7,22 @@ import { toast } from "sonner"
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query"
 
 const updateUser = async (data: {_id: string,name: string}) => {
-  const response = await API.patch("/account/update", data);
+  let dataWithModelName = {...data,modelName: "Account"}
+  const response = await API.patch("/name/update", dataWithModelName);
 
   return response.data;
 }
 import useAccountModal from "@/hooks/account-sheet-modal";
 
 const useUpdateAccount = () => {
+  
   const { onClose } = useAccountModal();
   const queryClient = useQueryClient();
   return useMutation({
 
     mutationFn: updateUser,
     onMutate: (updatedAccount) => {
-      
+      console.log(updatedAccount,"update");
       toast("Account updated successfully")
       queryClient.cancelQueries(
         {
