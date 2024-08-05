@@ -1,55 +1,44 @@
-import React from 'react'
 
-import CreatableSelect from "react-select/creatable"
-
-type selectProps = {
-  value: string | { label: string; value: string };
-  options: { label: string; value: string }[];
-
- 
+import React, { useMemo } from 'react';
+import CreatableSelect from "react-select/creatable";
+import {SingleValue,ActionMeta}  from "react-select"
+// Define a type alias for the option structure
+type OptionType = {
+  label: string;
+  value: string ;
 };
 
+// Define the props for the Select component
+type SelectProps = {
+  options: OptionType[];
+  value: string;
+  // onSelect: (newValue: SingleValue<OptionType>, actionMeta: ActionMeta<OptionType>) => void;
+  onSelect: (input: string )=> void
+  onCreateAccount: ({name}: {name: string})=> void
+};
 
+const Select = ({ options, value, onSelect,onCreateAccount }: SelectProps) => {
+  const formattedValue = useMemo(()=>{
+  return options.find((item) => item.value === value) || { label: "", value: "" };
+},[value,options])
 
-const Select = ({value,options}: selectProps) => {
-
-
-  return <CreatableSelect value={value} options={options} />;
+useMemo
+  return (
+    <CreatableSelect
+      value={formattedValue}
+      options={options}
+      onChange={(change )=>{
+if(change){
+onSelect(change.value)
 }
 
+
+      }}
+      onCreateOption={(name)=>{
+        onCreateAccount({name})
+      }}
+    />
+  );
+};
+
 export default Select;
-
-
-
-
-// export default Select
-
-// import React from 'react';
-// import CreatableSelect from 'react-select/creatable';
-
-// interface Option {
-//   label: string;
-//   value: string;
-// }
-
-// interface Props {
-//   options: Option[];
-//   value: string;
-//   onChange: (value: string) => void;
-// }
-
-// const Select: React.FC<Props> = ({ options, value, onChange }) => {
-//   // Convert string value to option for react-select
-//   const selectedOption = options.find(option => option.value === value) || { label: value, value };
-
-//   return (
-//     <CreatableSelect
-//       options={options}
-//       value={selectedOption}
-//       onChange={newValue => onChange(newValue ? (newValue as Option).value : '')}
-//       isClearable
-//     />
-//   );
-// };
-
-

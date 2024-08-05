@@ -75,8 +75,9 @@ const NewTransactionForm = ({
               <FormControl>
                 <Select
                   options={accountOptions}
-                  value={field.value}
-                  
+               value={field.value}
+               onSelect={field.onChange}
+                  onCreateAccount={onCreateAccount}
                 
                 />
               </FormControl>
