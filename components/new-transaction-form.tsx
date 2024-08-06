@@ -13,8 +13,9 @@ import useCreateNewAccount from "@/hooks/accounts/create-new-account-hook"
 import Select from './select';
 
 
+
 const formSchema = z.object({
- date: z.coerce.date(),
+ date: z.date(),
  accountId: z.string(),
  categoryId: z.string(),
 payee: z.string(),
@@ -47,7 +48,7 @@ const NewTransactionForm = ({
   const formMethods = useForm<formData>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      date: new Date(),
+      date: new Date() ,
       accountId: "",
       categoryId: "",
       payee: "",
@@ -66,6 +67,22 @@ const NewTransactionForm = ({
   return (
     <FormProvider {...formMethods}>
       <form onSubmit={formMethods.handleSubmit(onSubmit)} className="space-y-8">
+      <FormField
+          control={formMethods.control}
+          name="date"
+          render={({ field }) => (
+            <FormItem>
+             
+              <FormControl>
+            
+                    </FormControl>   
+
+              <FormMessage>
+                {formMethods.formState.errors.accountId?.message}
+              </FormMessage>
+            </FormItem>
+          )}
+        />
         <FormField
           control={formMethods.control}
           name="accountId"
@@ -114,6 +131,7 @@ const NewTransactionForm = ({
             </FormItem>
           )}
         />
+        
         <Button type="submit" variant="outline" disabled={mutation.isPending}>
           {mutation.isPending ? "Submitting" : "Submit"}
         </Button>
