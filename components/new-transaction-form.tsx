@@ -78,9 +78,35 @@ const NewTransactionForm = ({
                value={field.value}
                onSelect={field.onChange}
                   onCreateAccount={onCreateAccount}
+                disabled= {disabled}
+                  placeholder="Enter Account name"
+                />
+             
+              </FormControl>
+
+              <FormMessage>
+                {formMethods.formState.errors.accountId?.message}
+              </FormMessage>
+            </FormItem>
+          )}
+        />
+              <FormField
+          control={formMethods.control}
+          name="categoryId"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Category</FormLabel>
+              <FormControl>
+                <Select
+                  options={categoryOptions}
+               value={field.value}
+               onSelect={field.onChange}
+                  onCreateAccount={onCreateCategory}
+                  disabled= {disabled}
+                  placeholder="Enter cateogry name"
                 
                 />
-              </FormControl>
+                    </FormControl>
 
               <FormMessage>
                 {formMethods.formState.errors.accountId?.message}

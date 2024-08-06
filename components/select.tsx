@@ -1,7 +1,7 @@
 
 import React, { useMemo } from 'react';
 import CreatableSelect from "react-select/creatable";
-import {SingleValue,ActionMeta}  from "react-select"
+
 // Define a type alias for the option structure
 type OptionType = {
   label: string;
@@ -15,18 +15,34 @@ type SelectProps = {
   // onSelect: (newValue: SingleValue<OptionType>, actionMeta: ActionMeta<OptionType>) => void;
   onSelect: (input: string )=> void
   onCreateAccount: ({name}: {name: string})=> void
+  placeholder: string
+  disabled: boolean
 };
 
-const Select = ({ options, value, onSelect,onCreateAccount }: SelectProps) => {
+const Select = ({ options, value, onSelect,onCreateAccount,placeholder,disabled }: SelectProps) => {
   const formattedValue = useMemo(()=>{
-  return options.find((item) => item.value === value) || { label: "", value: "" };
-},[value,options])
+  return options.find((item) => item.value === value)
+  },[value,options])
 
-useMemo
+
   return (
     <CreatableSelect
       value={formattedValue}
       options={options}
+      className="text-sm 
+      h-10"
+      styles= {
+      {
+        control:(base)=>({
+          ...base,
+          borderColor: "#e2e8f0",
+          ":hover": {
+            borderColor: "#e2e8f0",
+          }
+        })
+        
+      }
+      }
       onChange={(change )=>{
 if(change){
 onSelect(change.value)
@@ -37,6 +53,8 @@ onSelect(change.value)
       onCreateOption={(name)=>{
         onCreateAccount({name})
       }}
+      placeholder={placeholder}
+      isDisabled={disabled}
     />
   );
 };
