@@ -32,7 +32,7 @@ export default function Home() {
     
     queryKey: ['accounts'],
     queryFn: fetchData
-    ,initialData: [{name: "hello",id: "1"}]
+    ,initialData: [{name: "hello",_id: "1"}]
       
     
   })

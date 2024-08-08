@@ -11,11 +11,14 @@ import { Button } from './ui/button';
 import API from '@/app/axios';
 import useCreateNewAccount from "@/hooks/accounts/create-new-account-hook"
 import Select from './select';
-
-
+import DatePicker from './date-picker';
+import {Textarea} from './ui/textarea';
+import InputAmount from './input-amount';
 
 const formSchema = z.object({
- date: z.date(),
+ date: z.coerce.date().nullable().refine((val)=> val instanceof Date,{
+   message: "Please select a date"
+ } ),
  accountId: z.string(),
  categoryId: z.string(),
 payee: z.string(),
@@ -48,7 +51,7 @@ const NewTransactionForm = ({
   const formMethods = useForm<formData>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      date: new Date() ,
+      date: null ,
       accountId: "",
       categoryId: "",
       payee: "",
@@ -74,7 +77,7 @@ const NewTransactionForm = ({
             <FormItem>
              
               <FormControl>
-            
+            <DatePicker date={field.value} onChange={field.onChange} />
                     </FormControl>   
 
               <FormMessage>
@@ -100,6 +103,7 @@ const NewTransactionForm = ({
                 />
              
               </FormControl>
+              
 
               <FormMessage>
                 {formMethods.formState.errors.accountId?.message}
@@ -124,6 +128,79 @@ const NewTransactionForm = ({
                 
                 />
                     </FormControl>
+
+              <FormMessage>
+                {formMethods.formState.errors.accountId?.message}
+              </FormMessage>
+            </FormItem>
+          )}
+        />
+               <FormField
+          control={formMethods.control}
+          name="amount"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Amount</FormLabel>
+              <FormControl>
+                <InputAmount
+                  
+                  value={field.value}
+                onChange={field.onChange}
+                  placeHolder="0.00"
+                  disabled= {disabled}
+                  
+                  
+                
+                />
+             
+              </FormControl>
+              
+
+              <FormMessage>
+                {formMethods.formState.errors.accountId?.message}
+              </FormMessage>
+            </FormItem>
+          )}
+        />
+                <FormField
+          control={formMethods.control}
+          name="payee"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Payee</FormLabel>
+              <FormControl>
+                <Input
+                  
+                disabled= {disabled}
+                  placeholder="Enter payee"
+                  {...field}
+                />
+             
+              </FormControl>
+              
+
+              <FormMessage>
+                {formMethods.formState.errors.accountId?.message}
+              </FormMessage>
+            </FormItem>
+          )}
+        />
+              <FormField
+          control={formMethods.control}
+          name="notes"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Notes</FormLabel>
+              <FormControl>
+                <Textarea
+                  
+                  placeholder="Enter notes"
+                  {...field}
+              
+                />
+             
+              </FormControl>
+              
 
               <FormMessage>
                 {formMethods.formState.errors.accountId?.message}
