@@ -1,35 +1,44 @@
+"use client";
 
-"use client"
-
-import React from 'react';
+import React from "react";
 import { array, z } from "zod";
 import { SubmitHandler, useForm, FormProvider } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from './ui/form';
-import { Input } from './ui/input';
-import { Button } from './ui/button';
-import API from '@/app/axios';
-import useCreateNewAccount from "@/hooks/accounts/create-new-account-hook"
-import Select from './select';
-import DatePicker from './date-picker';
-import {Textarea} from './ui/textarea';
-import InputAmount from './input-amount';
+import {
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "./ui/form";
+import { Input } from "./ui/input";
+import { Button } from "./ui/button";
+import API from "@/app/axios";
+import useCreateNewAccount from "@/hooks/accounts/create-new-account-hook";
+import Select from "./select";
+import DatePicker from "./date-picker";
+import { Textarea } from "./ui/textarea";
+import InputAmount from "./input-amount";
+import { convertToMiliamounts } from "@/lib/utils";
 
 const formSchema = z.object({
- date: z.coerce.date().nullable().refine((val)=> val instanceof Date,{
-   message: "Please select a date"
- } ),
- accountId: z.string(),
- categoryId: z.string(),
-payee: z.string(),
-amount: z.string(),
-notes: z.string().optional().nullable()
- 
-   
+  date: z.coerce
+    .date()
+    .nullable()
+    .optional()
+    .refine((val) => val instanceof Date, {
+      message: "Please select a date",
+    }),
+
+  accountId: z.string(),
+  categoryId: z.string(),
+  payee: z.string(),
+  amount: z.string(),
+  notes: z.string().optional(),
 });
 
 export type formData = z.infer<typeof formSchema>;
-
 
 type transactionFOrmProps = {
   disabled: boolean;
@@ -38,8 +47,6 @@ type transactionFOrmProps = {
   accountOptions: { label: string; value: string }[];
   onCreateAccount: ({ name }: { name: string }) => void;
 };
-
-
 
 const NewTransactionForm = ({
   disabled,
@@ -51,7 +58,7 @@ const NewTransactionForm = ({
   const formMethods = useForm<formData>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      date: null ,
+      date: null as unknown as Date,
       accountId: "",
       categoryId: "",
       payee: "",
@@ -63,22 +70,22 @@ const NewTransactionForm = ({
   const mutation = useCreateNewAccount();
 
   const onSubmit: SubmitHandler<formData> = (data) => {
+    const stringAmountToNumber = convertToMiliamounts(data.amount);
     // mutation.mutate(data);
-    console.log(data)
+    console.log({ ...data, amount: stringAmountToNumber });
   };
 
   return (
     <FormProvider {...formMethods}>
       <form onSubmit={formMethods.handleSubmit(onSubmit)} className="space-y-8">
-      <FormField
+        <FormField
           control={formMethods.control}
           name="date"
           render={({ field }) => (
             <FormItem>
-             
               <FormControl>
-            <DatePicker date={field.value} onChange={field.onChange} />
-                    </FormControl>   
+                <DatePicker date={field.value} onChange={field.onChange} />
+              </FormControl>
 
               <FormMessage>
                 {formMethods.formState.errors.accountId?.message}
@@ -95,15 +102,13 @@ const NewTransactionForm = ({
               <FormControl>
                 <Select
                   options={accountOptions}
-               value={field.value}
-               onSelect={field.onChange}
+                  value={field.value}
+                  onSelect={field.onChange}
                   onCreateAccount={onCreateAccount}
-                disabled= {disabled}
+                  disabled={disabled}
                   placeholder="Enter Account name"
                 />
-             
               </FormControl>
-              
 
               <FormMessage>
                 {formMethods.formState.errors.accountId?.message}
@@ -111,7 +116,7 @@ const NewTransactionForm = ({
             </FormItem>
           )}
         />
-              <FormField
+        <FormField
           control={formMethods.control}
           name="categoryId"
           render={({ field }) => (
@@ -120,14 +125,13 @@ const NewTransactionForm = ({
               <FormControl>
                 <Select
                   options={categoryOptions}
-               value={field.value}
-               onSelect={field.onChange}
+                  value={field.value}
+                  onSelect={field.onChange}
                   onCreateAccount={onCreateCategory}
-                  disabled= {disabled}
+                  disabled={disabled}
                   placeholder="Enter cateogry name"
-                
                 />
-                    </FormControl>
+              </FormControl>
 
               <FormMessage>
                 {formMethods.formState.errors.accountId?.message}
@@ -135,7 +139,7 @@ const NewTransactionForm = ({
             </FormItem>
           )}
         />
-               <FormField
+        <FormField
           control={formMethods.control}
           name="amount"
           render={({ field }) => (
@@ -143,18 +147,12 @@ const NewTransactionForm = ({
               <FormLabel>Amount</FormLabel>
               <FormControl>
                 <InputAmount
-                  
                   value={field.value}
-                onChange={field.onChange}
+                  onInput={field.onChange}
                   placeHolder="0.00"
-                  disabled= {disabled}
-                  
-                  
-                
+                  disabled={disabled}
                 />
-             
               </FormControl>
-              
 
               <FormMessage>
                 {formMethods.formState.errors.accountId?.message}
@@ -162,7 +160,7 @@ const NewTransactionForm = ({
             </FormItem>
           )}
         />
-                <FormField
+        <FormField
           control={formMethods.control}
           name="payee"
           render={({ field }) => (
@@ -170,14 +168,11 @@ const NewTransactionForm = ({
               <FormLabel>Payee</FormLabel>
               <FormControl>
                 <Input
-                  
-                disabled= {disabled}
+                  disabled={disabled}
                   placeholder="Enter payee"
                   {...field}
                 />
-             
               </FormControl>
-              
 
               <FormMessage>
                 {formMethods.formState.errors.accountId?.message}
@@ -185,22 +180,15 @@ const NewTransactionForm = ({
             </FormItem>
           )}
         />
-              <FormField
+        <FormField
           control={formMethods.control}
           name="notes"
           render={({ field }) => (
             <FormItem>
               <FormLabel>Notes</FormLabel>
               <FormControl>
-                <Textarea
-                  
-                  placeholder="Enter notes"
-                  {...field}
-              
-                />
-             
+                <Textarea {...field} placeholder="Enter notes" />
               </FormControl>
-              
 
               <FormMessage>
                 {formMethods.formState.errors.accountId?.message}
@@ -208,7 +196,7 @@ const NewTransactionForm = ({
             </FormItem>
           )}
         />
-        
+
         <Button type="submit" variant="outline" disabled={mutation.isPending}>
           {mutation.isPending ? "Submitting" : "Submit"}
         </Button>

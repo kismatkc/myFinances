@@ -45,7 +45,7 @@ const [open, setOpen] = useState(false)
             
             if(day){
               
-              onChange(day.toString())
+              onChange(day)
             }
             
             

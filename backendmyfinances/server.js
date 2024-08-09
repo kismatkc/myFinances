@@ -6,6 +6,7 @@ import mongoose from "mongoose";
 
 //routes
 import accountAndCategoryRoutes from "./routes/account-category-routes.js"
+import transactionRoutes from "./routes/account-category-routes.js"
 
 dotenv.config();
 const app = express();
@@ -53,6 +54,7 @@ app.use(cors());
 app.use(express.json());
 
 app.use("/api",accountAndCategoryRoutes)
+app.use("/api",transactionRoutes)
 
 
 
