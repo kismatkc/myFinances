@@ -14,7 +14,7 @@ import useAddNewAccountModal from "@/hooks/account-sheet-modal";
 
 import {  columns } from "./columns";
 
-import { DataTable } from "@/components/data-table";
+import { DataTable } from "@/components/data-table-accountCategory";
 import { Skeleton } from "@/components/ui/skeleton";
 import useDeleteAccount from "@/hooks/accounts/delete-account-hook";
 import AccountSheetProvider from "@/components/providers/account-page-sheet-provider";

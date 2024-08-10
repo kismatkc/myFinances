@@ -15,7 +15,7 @@ import {
 import { Input } from "./ui/input";
 import { Button } from "./ui/button";
 import API from "@/app/axios";
-import useCreateNewAccount from "@/hooks/accounts/create-new-account-hook";
+import useCreateNewTransaction from "@/hooks/transactions/create-new-transaction-hook";
 import Select from "./select";
 import DatePicker from "./date-picker";
 import { Textarea } from "./ui/textarea";
@@ -67,12 +67,12 @@ const NewTransactionForm = ({
     },
   });
 
-  const mutation = useCreateNewAccount();
+  const mutation = useCreateNewTransaction();
 
   const onSubmit: SubmitHandler<formData> = (data) => {
     const stringAmountToNumber = convertToMiliamounts(data.amount);
-    // mutation.mutate(data);
-    console.log({ ...data, amount: stringAmountToNumber });
+    mutation.mutate({...data,amount: stringAmountToNumber});
+ 
   };
 
   return (

@@ -1,10 +1,10 @@
-import { timeStamp } from "console";
+
 import mongoose, { Schema } from "mongoose";
 import { v4 as uuidv4 } from "uuid";
 const TransactionSchema = new Schema(
   {
     transactionId: {
-      type: string,
+      type: String,
       default: uuidv4,
       unique: true,
     },
@@ -21,15 +21,19 @@ const TransactionSchema = new Schema(
     },
 
     accountId: {
-      type: Schema.types.ObjectId,
+      type: Schema.Types.ObjectId,
       ref: "Account",
       required: true,
     },
     categoryId: {
-      type: Schema.types.ObjectId,
+      type: Schema.Types.ObjectId,
       ref: "Category",
       required: true,
     },
+    date: {
+      type: String,
+      required: true
+    }
   },
   {
     timestamps: true,

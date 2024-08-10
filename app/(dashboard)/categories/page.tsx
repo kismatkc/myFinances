@@ -15,7 +15,7 @@ import useAddNewAccountModal from "@/hooks/account-sheet-modal";
 import { Category, columns } from "./columns";
 import { useQuery } from "@tanstack/react-query";
 import API from "@/app/axios";
-import { DataTable } from "@/components/data-table";
+import { DataTable } from "@/components/data-table-accountCategory";
 import { Skeleton } from "@/components/ui/skeleton";
 import useDeleteAccount from "@/hooks/categories/delete-category-hook";
 import CategorySheetProvider from "@/components/providers/category-page-sheet-provider";

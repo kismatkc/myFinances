@@ -6,18 +6,23 @@ import { toast } from "sonner"
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query"
 
 type CreateTransactionProps = {
-  date: string;
+  date: string | Date;
   accountId: string;
   categoryId: string;
   payee: string;
-  amount: number;
+  amount: number | string;
   notes?: string | undefined;
 }
 
 const createTransaction = async (transactionDetails: CreateTransactionProps) => {
 
-  const response = await API.post("/name/create", transactionDetails);
-  return response.data;
+ try {
+
+   const response = await API.post("/transaction/create", transactionDetails);
+   return response.data;
+ } catch (error) {
+  console.log(error,"from isnide the createtrascation")
+ }
 }
 import useAddNewAccountModal from "@/hooks/account-sheet-modal";
 

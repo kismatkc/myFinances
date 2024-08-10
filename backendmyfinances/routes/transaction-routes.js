@@ -2,11 +2,11 @@ import express from "express";
 import {
   getTransactions,
   createTransaction,
-} from "../controllers/account-category-controller.js";
+} from "../controllers/transaction-controller.js";
 
 const router = express.Router();
 
-router.get("/transaction", getTransactions);
+router.get("/transactions", getTransactions);
 router.post("/transaction/create", createTransaction);
 // router.post("/name/delete",deleteUser)
 // router.patch("/name/update",updateUser)

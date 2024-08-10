@@ -6,7 +6,7 @@ import mongoose from "mongoose";
 
 //routes
 import accountAndCategoryRoutes from "./routes/account-category-routes.js"
-import transactionRoutes from "./routes/account-category-routes.js"
+import transactionRoutes from "./routes/transaction-routes.js"
 
 dotenv.config();
 const app = express();

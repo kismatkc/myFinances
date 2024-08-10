@@ -9,31 +9,21 @@ import {
   CardFooter,
 } from "@/components/ui/card";
 import { Loader2, Plus } from "lucide-react";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import useAddNewAccountModal from "@/hooks/account-sheet-modal";
 
-import { Account, columns } from "./columns";
-import { useQuery } from "@tanstack/react-query";
-import API from "@/app/axios";
-import { DataTable } from "@/components/data-table";
+import { columns } from "./columns";
+
+import { DataTable } from "@/components/data-table-transactions";
 import { Skeleton } from "@/components/ui/skeleton";
 import useDeleteAccount from "@/hooks/accounts/delete-account-hook";
-import TransactionsSheetProvider from "@/components/providers/transaction-page-sheet-provider";
-
-const fetchTransactions = async (): Promise<Transaction[]> => {
- 
-  const response = await API.get("/name");
-
-  return response.data;
-};
+import AccountSheetProvider from "@/components/providers/account-page-sheet-provider";
+import useGetAllAccounts from "@/hooks/transactions/get-all-transactions-hook";
 
 //fetch data
-const AccountsPage = () => {
-  const { data: Account, isLoading } = useQuery({
-    queryKey: ["transactions"],
-    queryFn: fetchTransactions,
-    initialData: [{ _id: "1", name: "default1" }],
-  });
+const TransactionPage = () => {
+  const { isLoading, data } = useGetAllAccounts();
+ 
 
   const { onOpen, actionType } = useAddNewAccountModal();
   const deleteAccounts = useDeleteAccount();
@@ -57,9 +47,7 @@ const AccountsPage = () => {
     <>
       <Card className="border-none drop-shadow-sm max-w-screen-2xl  mx-auto pb-10 -mt-24">
         <CardHeader className="gap-y-2 lg:flex-row lg:justify-between items-center ">
-          <CardTitle className="text-xl line-clamp-1">
-            Transactions page
-          </CardTitle>
+          <CardTitle className="text-xl line-clamp-1">Accounts page</CardTitle>
           <Button
             onClick={() => {
               onOpen("add");
@@ -76,14 +64,14 @@ const AccountsPage = () => {
               deleteAccounts.mutate({ data });
             }}
             columns={columns}
-            data={Account}
-            filter="name"
+            data={data}
+            filter="date"
           />
         </CardContent>
       </Card>
-      <TransactionsSheetProvider />
+      <AccountSheetProvider />
     </>
   );
 };
 
-export default AccountsPage;
+export default TransactionPage;

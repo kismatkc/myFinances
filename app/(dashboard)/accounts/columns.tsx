@@ -27,13 +27,15 @@ export const columns: ColumnDef<Account>[] = [
         aria-label="Select all"
       />
     ),
-    cell: ({ row }) => (
+    cell: ({ row }) => { 
+      console.log(row)
+      return (
       <Checkbox
         checked={row.getIsSelected()}
         onCheckedChange={(value) => row.toggleSelected(!!value)}
         aria-label="Select row"
       />
-    ),
+    )},
     enableSorting: false,
     enableHiding: false,
   },
