@@ -58,11 +58,23 @@ export const columns: ColumnDef<Transaction>[] = [
       return <span>{formatDate(row.original.date, "MMMM dd, yyyy")}</span>;
     },
   },
+  {
+    accessorKey: "category",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Category
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
+  },
 
   {
     accessorKey: "actions",
-    cell: ({ row }) => (
-      <Actions id="5" currentFieldValue= "hello" />
-    ),
+    cell: ({ row }) => <Actions id="5" currentFieldValue="hello" />,
   },
 ];

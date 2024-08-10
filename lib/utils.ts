@@ -21,3 +21,14 @@ export function convertFromMiliamounts(amountToBeConverted: string){
 
   return convertedAmount;
 }
+
+export function formatCurrency(currencyToBeFormatted: number) {
+  const convertedCurrency = Intl.NumberFormat("en-US",{
+    style: "currency",
+    currency: "USD",
+    minimumFractionDigits: 2
+  }).format(currencyToBeFormatted)
+
+
+  return convertedCurrency;
+}
