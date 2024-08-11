@@ -66,7 +66,10 @@ export function DataTable<TData extends Transaction, TValue>({
       rowSelection,
     },
   });
+React.useEffect(()=>{
+  console.log(data)
 
+},[data])
   return (
     <div>
       <div className="flex items-center py-4">

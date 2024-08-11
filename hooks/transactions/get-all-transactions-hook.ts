@@ -16,7 +16,7 @@ const  useGetAllTransactions = ()=>{
   const getAllAccounts = useQuery({
     queryKey: ["transactions"],
     queryFn: fetchAccounts,
-    initialData: [{date: "6",
+    initialData: [{date: "",
     accountId: "",
       categoryId: "",
       payee: "",

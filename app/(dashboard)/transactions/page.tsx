@@ -17,18 +17,18 @@ import { columns } from "./columns";
 import { DataTable } from "@/components/data-table-transactions";
 import { Skeleton } from "@/components/ui/skeleton";
 import useDeleteAccount from "@/hooks/accounts/delete-account-hook";
-import AccountSheetProvider from "@/components/providers/account-page-sheet-provider";
+import TransactionSheetProvider from "@/components/providers/transaction-page-sheet-provider";
 import useGetAllAccounts from "@/hooks/transactions/get-all-transactions-hook";
 
 //fetch data
 const TransactionPage = () => {
-  const { isLoading, data } = useGetAllAccounts();
+  const { isPending, data } = useGetAllAccounts();
  
 
   const { onOpen, actionType } = useAddNewAccountModal();
   const deleteAccounts = useDeleteAccount();
 
-  if (isLoading) {
+  if (isPending) {
     return (
       <Card className="border-none drop-shadow-sm max-w-screen-2xl  mx-auto pb-10 -mt-24">
         <CardHeader className="gap-y-2 lg:flex-row lg:justify-between items-center  ">
@@ -69,7 +69,7 @@ const TransactionPage = () => {
           />
         </CardContent>
       </Card>
-      <AccountSheetProvider />
+      <TransactionSheetProvider />
     </>
   );
 };

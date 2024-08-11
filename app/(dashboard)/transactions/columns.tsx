@@ -5,6 +5,7 @@ import { ArrowUpDown, MoreHorizontal } from "lucide-react";
 import { Checkbox } from "@/components/ui/checkbox";
 import Actions from "./actions"
 import { formatDate } from "date-fns";
+import { convertFromMiliamounts, formatCurrency } from "@/lib/utils";
 
 
 // This type is used to define the shape of our data.
@@ -55,20 +56,38 @@ export const columns: ColumnDef<Transaction>[] = [
       );
     },
     cell: ({ row }) => {
-      return <span>{formatDate(row.original.date, "MMMM dd, yyyy")}</span>;
+      return <span>{formatDate(row.original.date || new Date(), "MMMM dd, yyyy")}</span>;
+     
     },
   },
   {
-    accessorKey: "category",
+    accessorKey: "Category",
+
+    cell: ({ row }) => <span>{row.original.categoryId}</span>,
+  },
+  {
+    accessorKey: "Payee",
+
+    cell: ({ row }) => <span>{row.original.payee}</span>,
+  },
+  {
+    accessorKey: "Amount",
     header: ({ column }) => {
       return (
         <Button
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          Category
+          Amount
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
+      );
+    },
+    cell: ({ row }) => {
+      return (
+        <span>
+          {formatCurrency(convertFromMiliamounts(row.original.amount))}
+        </span>
       );
     },
   },

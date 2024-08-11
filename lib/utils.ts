@@ -16,6 +16,7 @@ export function convertToMiliamounts(amountToBeConverted: string){
 
 
 export function convertFromMiliamounts(amountToBeConverted: string){
+  if(!amountToBeConverted) return 0
   const convertedAmount = parseFloat(amountToBeConverted) / 1000;
 
 
@@ -23,11 +24,13 @@ export function convertFromMiliamounts(amountToBeConverted: string){
 }
 
 export function formatCurrency(currencyToBeFormatted: number) {
+  if(!currencyToBeFormatted) return 
   const convertedCurrency = Intl.NumberFormat("en-US",{
     style: "currency",
     currency: "USD",
     minimumFractionDigits: 2
   }).format(currencyToBeFormatted)
+  
 
 
   return convertedCurrency;

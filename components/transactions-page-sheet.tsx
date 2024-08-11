@@ -28,7 +28,7 @@ const NewAccountSheet = () => {
 
    const { data: categories, isLoading: categoriesIsLoading } =
      useGetAllCategories();
-  const categoryOptions = accounts.map((category) => ({
+  const categoryOptions = categories.map((category) => ({
     label: category.name,
     value: category._id,
   }));
