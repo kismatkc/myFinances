@@ -15,8 +15,9 @@ export type Transaction = {
   accountId: string;
   categoryId: string;
   payee: string;
-  amount: string ;
+  amount: number ;
   notes?: string ;
+  _id: string;
 };
 
 export const columns: ColumnDef<Transaction>[] = [
@@ -56,8 +57,11 @@ export const columns: ColumnDef<Transaction>[] = [
       );
     },
     cell: ({ row }) => {
-      return <span>{formatDate(row.original.date || new Date(), "MMMM dd, yyyy")}</span>;
-     
+      return (
+        <span>
+          {formatDate(row.original.date || new Date(), "MMMM dd, yyyy")}
+        </span>
+      );
     },
   },
   {
@@ -71,12 +75,12 @@ export const columns: ColumnDef<Transaction>[] = [
     cell: ({ row }) => <span>{row.original.payee}</span>,
   },
   {
-    accessorKey: "Amount",
+    accessorKey: "amount",
     header: ({ column }) => {
       return (
         <Button
           variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          onClick={() => column.toggleSorting(column.getIsSorted() !== "desc")}
         >
           Amount
           <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -90,8 +94,21 @@ export const columns: ColumnDef<Transaction>[] = [
         </span>
       );
     },
-  },
+    sortingFn: (rowA, rowB) => {
+      // Convert the amount strings to numbers
+      const amountA = rowA.original.amount;
+      const amountB = rowB.original.amount;
 
+      // Compare the amounts
+      return amountA - amountB;
+    },
+  },
+  {
+    accessorKey: "Notes",
+
+    cell: ({ row }) => <span>{row.original.notes}</span>,
+  },
+  
   {
     accessorKey: "actions",
     cell: ({ row }) => <Actions id="5" currentFieldValue="hello" />,

@@ -16,19 +16,19 @@ import { columns } from "./columns";
 
 import { DataTable } from "@/components/data-table-transactions";
 import { Skeleton } from "@/components/ui/skeleton";
-import useDeleteAccount from "@/hooks/accounts/delete-account-hook";
+import useDeleteTransaction from "@/hooks/transactions/delete-transaction-hook";
 import TransactionSheetProvider from "@/components/providers/transaction-page-sheet-provider";
 import useGetAllAccounts from "@/hooks/transactions/get-all-transactions-hook";
 
 //fetch data
 const TransactionPage = () => {
-  const { isPending, data } = useGetAllAccounts();
+  const { isLoading, data } = useGetAllAccounts();
  
 
   const { onOpen, actionType } = useAddNewAccountModal();
-  const deleteAccounts = useDeleteAccount();
+  const deleteAccounts = useDeleteTransaction();
 
-  if (isPending) {
+  if (isLoading) {
     return (
       <Card className="border-none drop-shadow-sm max-w-screen-2xl  mx-auto pb-10 -mt-24">
         <CardHeader className="gap-y-2 lg:flex-row lg:justify-between items-center  ">
@@ -61,10 +61,10 @@ const TransactionPage = () => {
         <CardContent>
           <DataTable
             onDelete={(data) => {
-              deleteAccounts.mutate({ data });
+              deleteAccounts.mutate( data );
             }}
             columns={columns}
-            data={data}
+            data={data || []}
             filter="date"
           />
         </CardContent>

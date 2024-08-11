@@ -11,17 +11,17 @@ type OptionType = {
 // Define the props for the Select component
 type SelectProps = {
   options: OptionType[];
-  value: string;
+  value: OptionType;
   // onSelect: (newValue: SingleValue<OptionType>, actionMeta: ActionMeta<OptionType>) => void;
-  onSelect: (input: string )=> void
-  onCreateAccount: ({name}: {name: string})=> void
-  placeholder: string
-  disabled: boolean
+  onSelect: ({ label, value }: OptionType) => void;
+  onCreateAccount: ({ name }: { name: string }) => void;
+  placeholder: string;
+  disabled: boolean;
 };
 
 const Select = ({ options, value, onSelect,onCreateAccount,placeholder,disabled }: SelectProps) => {
   const formattedValue = useMemo(()=>{
-  return options.find((item) => item.value === value)
+  return options.find((item) => item.value === value.value)
   },[value,options])
 
 
@@ -45,7 +45,8 @@ const Select = ({ options, value, onSelect,onCreateAccount,placeholder,disabled 
       }
       onChange={(change )=>{
 if(change){
-onSelect(change.value)
+// onSelect(change.value)
+onSelect(change)
 }
 
 

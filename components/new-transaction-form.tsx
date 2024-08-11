@@ -31,8 +31,8 @@ const formSchema = z.object({
       message: "Please select a date",
     }),
 
-  accountId: z.string(),
-  categoryId: z.string(),
+  accountId: z.object({ label: z.string(), value: z.string() }),
+  categoryId: z.object({ label: z.string(), value: z.string() }),
   payee: z.string(),
   amount: z.string(),
   notes: z.string().optional(),
@@ -59,8 +59,8 @@ const NewTransactionForm = ({
     resolver: zodResolver(formSchema),
     defaultValues: {
       date: null as unknown as Date,
-      accountId: "",
-      categoryId: "",
+      accountId: {},
+      categoryId: {},
       payee: "",
       amount: "",
       notes: "",
@@ -71,6 +71,9 @@ const NewTransactionForm = ({
 
   const onSubmit: SubmitHandler<formData> = (data) => {
     const stringAmountToNumber = convertToMiliamounts(data.amount);
+ console.log(data);
+ 
+    
     mutation.mutate({...data,amount: stringAmountToNumber});
  
   };

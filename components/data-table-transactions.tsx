@@ -86,17 +86,17 @@ React.useEffect(()=>{
             variant="destructive"
             size="sm"
             onClick={async () => {
-            //   const yes = await openConfirmationModal();
+              const yes = await openConfirmationModal();
 
-            //   if (yes) {
-            //     const data = table
-            //       .getFilteredSelectedRowModel()
-            //       .rows.map((item) => item.original._id);
+              if (yes) {
+                const data = table
+                  .getFilteredSelectedRowModel()
+                  .rows.map((item) => item.original._id);
 
-            //     onDelete(data);
-            //     table.resetRowSelection();
-            //   }
-              // Forcefully rerender by updating the state
+                onDelete(data);
+                table.resetRowSelection();
+              }
+             
             }}
             className="ml-auto font-normal text-xs"
           >

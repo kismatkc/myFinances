@@ -15,9 +15,9 @@ export function convertToMiliamounts(amountToBeConverted: string){
 
 
 
-export function convertFromMiliamounts(amountToBeConverted: string){
+export function convertFromMiliamounts(amountToBeConverted: number){
   if(!amountToBeConverted) return 0
-  const convertedAmount = parseFloat(amountToBeConverted) / 1000;
+  const convertedAmount = amountToBeConverted / 1000;
 
 
   return convertedAmount;

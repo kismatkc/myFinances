@@ -10,11 +10,11 @@ export const getTransactions = async(req,res)=>{
         "categoryId",
         "accountId",
       ]);
-      const finalTransactions = transactions.map(({date,payee,categoryId,accountId,notes,transactionId,amount}) => {
+      const finalTransactions = transactions.map(({date,payee,categoryId,accountId,notes,transactionId,amount,_id}) => {
         
        const categoryName= categoryId.name
       const  AccountName= accountId.name
-        return { date,payee,notes, categoryId: categoryName,accountId: AccountName,transactionId,amount};
+        return { date,payee,notes, categoryId: categoryName,accountId: AccountName,transactionId,amount,_id};
       });
 
    
@@ -47,3 +47,21 @@ const convertAmountToNumber = parseFloat(transactionDetails.amount)
        res.status(500).json({ error });
  }
  }
+
+
+
+ export const deleteTransaction = async (req, res) => {
+
+   const  transactions  = req.body;
+   
+   try {
+     await connectToDatabase();
+
+     
+     const deleteTransaction = await Transaction.deleteMany({ _id: { $in: transactions } });
+  
+     res.status(200).json(deleteTransaction);
+   } catch (error) {
+     res.status(500).json({ message: error });
+   }
+ };

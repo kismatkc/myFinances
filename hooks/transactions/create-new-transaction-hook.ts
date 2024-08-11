@@ -7,8 +7,14 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query"
 
 type CreateTransactionProps = {
   date: string | Date;
-  accountId: string;
-  categoryId: string;
+  accountId: {
+    value: string;
+    label: string;
+  };
+  categoryId: {
+    value: string;
+    label: string;
+  };
   payee: string;
   amount: number | string;
   notes?: string | undefined;
@@ -17,8 +23,9 @@ type CreateTransactionProps = {
 const createTransaction = async (transactionDetails: CreateTransactionProps) => {
 
  try {
-
-   const response = await API.post("/transaction/create", transactionDetails);
+  //for backend
+   const transactionDetailsWithValue = { ...transactionDetails, accountId: transactionDetails.accountId.value, categoryId: transactionDetails.categoryId.value }
+   const response = await API.post("/transaction/create", transactionDetailsWithValue);
    return response.data;
  } catch (error) {
   console.log(error,"from isnide the createtrascation")
@@ -32,8 +39,10 @@ const useCreateNewTransaction = () => {
   return useMutation({
 
     mutationFn: createTransaction,
-    onMutate: (newTransaction) => {
-     
+    onMutate: (transactionDetails) => {
+      //for optimistic update
+      const transactionDetailsWithLabel = { ...transactionDetails, accountId: transactionDetails.accountId.label, categoryId: transactionDetails.categoryId.label }
+
       
       toast("Transaction added successfully")
       queryClient.cancelQueries(
@@ -45,7 +54,7 @@ const useCreateNewTransaction = () => {
       const previousAccounts = queryClient.getQueryData(['transactions']);
 
 
-      queryClient.setQueryData(['transactions'], (old: { name: string }[]) => [...old, newTransaction]
+      queryClient.setQueryData(['transactions'], (old: { name: string }[]) => [...old, transactionDetailsWithLabel]
       
       );
    

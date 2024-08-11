@@ -18,7 +18,8 @@ const  useGetAllAccounts = ()=>{
   const getAllAccounts = useQuery({
     queryKey: ["accounts"],
     queryFn: fetchAccounts,
-    initialData: [{ _id: "1", name: "default1" }]
+    initialData: []
+   
   });
 
 

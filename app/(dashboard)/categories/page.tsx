@@ -38,7 +38,7 @@ const AccountsPage = () => {
   const {data,isLoading} = useQuery({
     queryKey: ["categories"],
     queryFn: fetchAccounts,
-    initialData: [{name: "hello",_id: "1"}]
+
   });
     
 
@@ -81,11 +81,11 @@ const deleteAccounts = useDeleteAccount();
         <CardContent>
           <DataTable
             onDelete={(data) => {
-              let jsonData = { data };
+              let jsonData = { data};
               deleteAccounts.mutate(jsonData);
             }}
             columns={columns}
-            data={data}
+            data={data || [] }
             filter="name"
           />
         </CardContent>

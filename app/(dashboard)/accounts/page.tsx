@@ -66,7 +66,7 @@ const {isLoading,data: Account} = useGetAllAccounts();
               deleteAccounts.mutate({data});
             }}
             columns={columns}
-            data={Account}
+            data={Account || []}
             filter="name"
           />
         </CardContent>
