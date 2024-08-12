@@ -2,7 +2,18 @@
 import { act } from "react";
 import {  create } from "zustand";
 
-
+type defaultValues = {
+        value: string;
+        label: string;
+    };
+    categoryId: {
+        value: string;
+        label: string;
+    };
+    payee: string;
+    amount: string;
+    notes?: string | undefined;
+}
 
 type NewAccountState= {
 isOpen: boolean,
@@ -35,6 +46,7 @@ onClose: ()=> void;
     amount: string;
     notes?: string | undefined;
 }
+    setNewTransaction: (transaction: defaultValues)
 
 }
 //use on prefix before methods to change the state 
@@ -58,6 +70,7 @@ onOpen: (action: string)=> set({isOpen: true,actionType: action}),
 onClose: ()=> set({isOpen: false}),
     setId: (accountId: string) => set({ _id: accountId}),
     setNewName: (currentFieldValue: string) => set({ currentFieldValue: currentFieldValue })
+     setNewTransaction()
 
 }))
 
