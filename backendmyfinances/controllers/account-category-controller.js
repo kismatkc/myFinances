@@ -111,7 +111,7 @@ updatedAccount =  await Category.findByIdAndUpdate(_id,{name},{new: true,runVali
             
         }
           
-    
+    res.status(200).json(updatedAccount)
         }catch(error){
     
     

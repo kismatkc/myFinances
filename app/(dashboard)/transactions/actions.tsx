@@ -9,13 +9,23 @@ import {
 import { Edit, MoreHorizontal } from "lucide-react";
 import useAccountModal from "@/hooks/account-sheet-modal";
 
-export default function Actions({
-  id,
-  currentFieldValue,
-}: {
-  id: string;
-  currentFieldValue: string;
-}) {
+type defaultValues = {
+  date: Date;
+  accountId: {
+      value: string;
+      label: string;
+  };
+  categoryId: {
+      value: string;
+      label: string;
+  };
+  payee: string;
+  amount: string;
+  notes?: string | undefined;
+}
+
+
+export default function Actions(formDefaultValues: defaultValues) {
   const { onOpen, setId, setNewName } = useAccountModal();
   return (
     <DropdownMenu>

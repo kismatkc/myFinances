@@ -16,28 +16,29 @@ import useGetAllCategories from "@/hooks/categories/get-all-categories-hook";
 import useCreateNewAccount from "@/hooks/accounts/create-new-account-hook";
 import useCreateNewCategory from "@/hooks/categories/create-new-category-hook";
 import { Loader2 } from "lucide-react";
-
-
+import EditTransactionForm from "./transaction-edit-form";
 
 const NewAccountSheet = () => {
   const { isOpen, onOpen, onClose, actionType } = accountSheetModal(); //this hook is really handy
   //options realted logic for react select
-  const {data: accounts,isLoading: accountsIsLoading}= useGetAllAccounts();
-  const accountOptions = accounts.map((account)=>({label: account.name,value: account._id}))
+  const { data: accounts, isLoading: accountsIsLoading } = useGetAllAccounts();
+  const accountOptions = accounts.map((account) => ({
+    label: account.name,
+    value: account._id,
+  }));
   const createNewAccountOption = useCreateNewAccount();
 
-   const { data: categories, isLoading: categoriesIsLoading } =
-     useGetAllCategories();
+  const { data: categories, isLoading: categoriesIsLoading } =
+    useGetAllCategories();
   const categoryOptions = categories.map((category) => ({
     label: category.name,
     value: category._id,
   }));
-   const createNewCategoryOption = useCreateNewCategory();
+  const createNewCategoryOption = useCreateNewCategory();
 
-   const showLoader = accountsIsLoading || categoriesIsLoading
-const disabled = createNewAccountOption.isPending || createNewCategoryOption.isPending
-
-
+  const showLoader = accountsIsLoading || categoriesIsLoading;
+  const disabled =
+    createNewAccountOption.isPending || createNewCategoryOption.isPending;
 
   if (actionType === "add") {
     return (
@@ -46,20 +47,25 @@ const disabled = createNewAccountOption.isPending || createNewCategoryOption.isP
           <DialogTitle>
             <VisuallyHidden.Root>Menu</VisuallyHidden.Root>
           </DialogTitle>
-          <SheetHeader>
+          <SheetHeader className="mb-6">
             <SheetTitle>New transactions</SheetTitle>
             <SheetDescription>Add new transactions</SheetDescription>
           </SheetHeader>
-      {    showLoader ? (
-          <div className="absolute inset-0 flex items-center justify-center">
-            <Loader2 className="size-4 animate-spin" />
-          </div>
-          ): (
-          <NewTransactionForm  disabled={disabled}
-  categoryOptions={categoryOptions}
-  onCreateCategory = {createNewCategoryOption.mutate}
-  accountOptions= {accountOptions}
-  onCreateAccount={createNewAccountOption.mutate} />)}
+       
+            {showLoader ? (
+              <div className="absolute inset-0 flex items-center justify-center">
+                <Loader2 className="size-4 animate-spin" />
+              </div>
+            ) : (
+              <NewTransactionForm
+                disabled={disabled}
+                categoryOptions={categoryOptions}
+                onCreateCategory={createNewCategoryOption.mutate}
+                accountOptions={accountOptions}
+                onCreateAccount={createNewAccountOption.mutate}
+              />
+            )}
+       
         </SheetContent>
       </Sheet>
     );
@@ -71,7 +77,7 @@ const disabled = createNewAccountOption.isPending || createNewCategoryOption.isP
             <VisuallyHidden.Root>Menu</VisuallyHidden.Root>
           </DialogTitle>
 
-          <SheetHeader>
+          <SheetHeader  className="mb-6">
             <SheetTitle>Edit transactions</SheetTitle>
             <SheetDescription>Update transactions details</SheetDescription>
           </SheetHeader>
@@ -81,10 +87,13 @@ const disabled = createNewAccountOption.isPending || createNewCategoryOption.isP
               <Loader2 className="size-4 animate-spin" />
             </div>
           ) : (
-            // <NewTransactionForm />
-            <div>
-              
-            </div>
+            <EditTransactionForm
+              disabled={disabled}
+              categoryOptions={categoryOptions}
+              onCreateCategory={createNewCategoryOption.mutate}
+              accountOptions={accountOptions}
+              onCreateAccount={createNewAccountOption.mutate}
+            />
           )}
         </SheetContent>
       </Sheet>

@@ -18,6 +18,24 @@ onClose: ()=> void;
    updatedcurrentFieldValue: string,
    setId: (id: string)=> void,
    setNewName: (currentFieldValue: string) => void,
+
+
+   //transaction realted props
+   defaultValues: {
+    date: Date;
+    accountId: {
+        value: string;
+        label: string;
+    };
+    categoryId: {
+        value: string;
+        label: string;
+    };
+    payee: string;
+    amount: string;
+    notes?: string | undefined;
+}
+
 }
 //use on prefix before methods to change the state 
  const useAddNewAccountModal =  create<NewAccountState>((set)=>({
@@ -26,6 +44,15 @@ actionType: "",
    _id: "",
    currentFieldValue: "",
     updatedcurrentFieldValue: "string",
+
+    defaultValues: {
+        date: null as unknown as Date,
+        accountId: {value: "",label:""},
+        categoryId: {value: "",label: ""},
+        payee: "",
+        amount: "",
+        notes: "",
+      },
 
 onOpen: (action: string)=> set({isOpen: true,actionType: action}),
 onClose: ()=> set({isOpen: false}),
