@@ -12,13 +12,12 @@ export const getTransactions = async(req,res)=>{
       ]);
       const finalTransactions = transactions.map(({date,payee,categoryId,accountId,notes,transactionId,amount,_id}) => {
         
-       const categoryName= categoryId.name
-      const  AccountName= accountId.name
-        return { date,payee,notes, categoryId: categoryName,accountId: AccountName,transactionId,amount,_id};
+       
+        return { date,payee,notes,  categoryId,accountId,transactionId,amount,_id};
       });
 
    
-     console.log(finalTransactions);
+    
     
       
       res.status(200).json(finalTransactions);
@@ -34,14 +33,17 @@ export const getTransactions = async(req,res)=>{
  export const createTransaction = async(req,res)=>{
 const transactionDetails = req.body;
 const convertAmountToNumber = parseFloat(transactionDetails.amount)
-
+console.log(transactionDetails)
  
  try {
     await connectToDatabase();
-   const newTransaction = new Transaction({...transactionDetails,amount: convertAmountToNumber});
+
+   
+const newTransaction = new Transaction({...transactionDetails,amount: convertAmountToNumber,accountId: transactionDetails.accountId.value,categoryId: transactionDetails.categoryId.value});
+   
    await newTransaction.save();
    console.log(newTransaction)
-   res.status(200).json({newTransaction})
+  res.status(200).json({newTransaction})
  } catch (error) {
     console.log(error,"please provide correct transaction details");
        res.status(500).json({ error });

@@ -1,19 +1,15 @@
 
-import { act } from "react";
-import {  create } from "zustand";
 
-type defaultValues = {
-        value: string;
-        label: string;
-    };
-    categoryId: {
-        value: string;
-        label: string;
-    };
-    payee: string;
-    amount: string;
-    notes?: string | undefined;
-}
+import {  create } from "zustand";
+type defaultValuesProps = {
+        date: string;
+          accountId: {label:string,value: string};
+          categoryId: {label:string,value: string};
+          payee: string;
+          amount: number ;
+          notes?: string ;
+          _id: string;
+    }
 
 type NewAccountState= {
 isOpen: boolean,
@@ -32,21 +28,18 @@ onClose: ()=> void;
 
 
    //transaction realted props
-   defaultValues: {
-    date: Date;
-    accountId: {
-        value: string;
-        label: string;
-    };
-    categoryId: {
-        value: string;
-        label: string;
-    };
-    payee: string;
-    amount: string;
-    notes?: string | undefined;
-}
-    setNewTransaction: (transaction: defaultValues)
+   defaultValues : {
+    date: string;
+      accountId: {label:string,value: string};
+      categoryId: {label:string,value: string};
+      payee: string;
+      amount: number ;
+      notes?: string ;
+      _id: string;
+},
+
+    setEditFormValues: (transaction: defaultValuesProps)=> void;
+    
 
 }
 //use on prefix before methods to change the state 
@@ -58,19 +51,22 @@ actionType: "",
     updatedcurrentFieldValue: "string",
 
     defaultValues: {
-        date: null as unknown as Date,
-        accountId: {value: "",label:""},
-        categoryId: {value: "",label: ""},
+        date: "",
+        accountId: {label: "",value: ""},
+        categoryId: {label: "",value: ""},
         payee: "",
-        amount: "",
+        amount: 0,
         notes: "",
+        _id: "",
       },
 
 onOpen: (action: string)=> set({isOpen: true,actionType: action}),
 onClose: ()=> set({isOpen: false}),
     setId: (accountId: string) => set({ _id: accountId}),
     setNewName: (currentFieldValue: string) => set({ currentFieldValue: currentFieldValue })
-     setNewTransaction()
+     ,
+     setEditFormValues: (transaction: defaultValuesProps)=> set({ defaultValues: transaction })
+    
 
 }))
 

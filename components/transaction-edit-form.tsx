@@ -3,7 +3,7 @@
 import { Input } from "./ui/input";
 import { Button } from "./ui/button";
 import API from "@/app/axios";
-import useUpdateAccount from "@/hooks/accounts/update-account-hook";
+import useUpdateTransaction from "@/hooks/transactions/update-transaction-hook";
 import useAddNewAccountModal from "@/hooks/account-sheet-modal";
 
 import React from "react";
@@ -19,7 +19,7 @@ import {
   FormMessage,
 } from "./ui/form";
 
-import useCreateNewTransaction from "@/hooks/transactions/create-new-transaction-hook";
+
 import Select from "./select";
 import DatePicker from "./date-picker";
 import { Textarea } from "./ui/textarea";
@@ -43,7 +43,14 @@ const formSchema = z.object({
 });
 
 export type formData = z.infer<typeof formSchema>;
-
+type formDataForApi={
+  date: string,
+  accountId: {label: string,value: string},
+  categoryId: {label: string,value: string},
+  payee: string,
+  amount: string,
+  notes: string
+}
 type transactionFOrmProps = {
   disabled: boolean;
   categoryOptions: { label: string; value: string }[];
@@ -59,32 +66,40 @@ const EditTransactionForm= ({
   accountOptions,
   onCreateAccount,
 }: transactionFOrmProps) => {
-  const { _id, currentFieldValue } = useAddNewAccountModal();
+  const { defaultValues  } = useAddNewAccountModal();
+
+  //Could have used the achtal Date type from begjnning but next time 
+  // let formDefaultValues = {...defaultValues,date}
   const formMethods = useForm<formData>({
     resolver: zodResolver(formSchema),
+    //Lots of unexpected huddent properties sk clulsnkt lrovide the full tyoe for the default values for eg name and_id
     defaultValues: {
-      date: null as unknown as Date,
-      accountId: {},
-      categoryId: {},
-      payee: "",
-      amount: "",
-      notes: "",
+      date: new Date(defaultValues.date),
+      accountId: { label: defaultValues.accountId.name, value: defaultValues.accountId._id},
+      categoryId: { label: defaultValues.categoryId.name, value: defaultValues.categoryId._id},
+      notes: defaultValues.notes,
+      payee: defaultValues.payee,
+      amount: defaultValues.amount.toString(),
+      
     },
   });
 
-  const mutation = useUpdateAccount();
+  const mutation = useUpdateTransaction();
 
   
-  const onSubmit: SubmitHandler<formData> = (data) => {
+  const onSubmit: SubmitHandler<formDataForApi> = (data) => {
+    
     const stringAmountToNumber = convertToMiliamounts(data.amount);
- console.log(data);
+    const dateToString = data.date.toString()
+ 
  
     
-    mutation.mutate({...data,amount: stringAmountToNumber});
- 
+    mutation.mutate({...data,amount: stringAmountToNumber,date: dateToString});
+    
   };
 
-
+const {isDirty} = formMethods.formState;
+  
   return (
     <FormProvider {...formMethods}>
       <form onSubmit={formMethods.handleSubmit(onSubmit)} className="space-y-8">
@@ -94,7 +109,7 @@ const EditTransactionForm= ({
           render={({ field }) => (
             <FormItem>
               <FormControl>
-                <DatePicker date={field.value} onChange={field.onChange} />
+                <DatePicker date={field.value as Date} onChange={field.onChange} />
               </FormControl>
 
               <FormMessage>
@@ -207,9 +222,11 @@ const EditTransactionForm= ({
           )}
         />
 
-        <Button type="submit" variant="outline" disabled={mutation.isPending}>
+        <Button type="submit" variant="outline" disabled={!isDirty}>
           {mutation.isPending ? "Submitting" : "Submit"}
+     
         </Button>
+             {!isDirty && <div className="text-red-900 text-sm">Please modify the transcation in order to submit</div>}
       </form>
     </FormProvider>
   );

@@ -6,7 +6,7 @@ import { toast } from "sonner"
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query"
 
 type CreateTransactionProps = {
-  date: string | Date;
+  date?: string | Date | null;
   accountId: {
     value: string;
     label: string;
@@ -24,8 +24,8 @@ const createTransaction = async (transactionDetails: CreateTransactionProps) => 
 
  try {
   //for backend
-   const transactionDetailsWithValue = { ...transactionDetails, accountId: transactionDetails.accountId.value, categoryId: transactionDetails.categoryId.value }
-   const response = await API.post("/transaction/create", transactionDetailsWithValue);
+   // const transactionDetailsWithValue = { ...transactionDetails, accountId: transactionDetails.accountId.value, categoryId: transactionDetails.categoryId.value }
+   const response = await API.post("/transaction/create", transactionDetails);
    return response.data;
  } catch (error) {
   console.log(error,"from isnide the createtrascation")
@@ -65,7 +65,7 @@ const useCreateNewTransaction = () => {
     },
 
     onSuccess: (data) => {
-console.log(data);
+
 
       queryClient.invalidateQueries({
         queryKey: ['accounts']

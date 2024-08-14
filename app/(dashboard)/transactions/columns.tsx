@@ -12,8 +12,8 @@ import { convertFromMiliamounts, formatCurrency } from "@/lib/utils";
 // You can use a Zod schema here if you want.
 export type Transaction = {
   date: string;
-  accountId: string;
-  categoryId: string;
+  accountId: {label: string,value:string};
+  categoryId: {label: string,value:string}
   payee: string;
   amount: number ;
   notes?: string ;
@@ -67,7 +67,7 @@ export const columns: ColumnDef<Transaction>[] = [
   {
     accessorKey: "Category",
 
-    cell: ({ row }) => <span>{row.original.categoryId}</span>,
+    cell: ({ row }) => <span>{row.original.categoryId.name}</span>,
   },
   {
     accessorKey: "Payee",
@@ -111,6 +111,11 @@ export const columns: ColumnDef<Transaction>[] = [
   
   {
     accessorKey: "actions",
-    cell: ({ row }) => <Actions id="5" currentFieldValue="hello" />,
+    cell: ({ row }) => {
+      
+    return   <Actions formDefaultValues={row.original} />
+        }
+    
+    
   },
 ];

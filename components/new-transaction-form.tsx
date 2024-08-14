@@ -63,7 +63,7 @@ const NewTransactionForm = ({
       categoryId: {},
       payee: "",
       amount: "",
-      notes: "",
+      notes: ""
     },
   });
 
@@ -71,7 +71,7 @@ const NewTransactionForm = ({
 
   const onSubmit: SubmitHandler<formData> = (data) => {
     const stringAmountToNumber = convertToMiliamounts(data.amount);
- console.log(data);
+ 
  
     
     mutation.mutate({...data,amount: stringAmountToNumber});
@@ -87,7 +87,7 @@ const NewTransactionForm = ({
           render={({ field }) => (
             <FormItem>
               <FormControl>
-                <DatePicker date={field.value} onChange={field.onChange} />
+                <DatePicker date={field.value as Date} onChange={field.onChange} />
               </FormControl>
 
               <FormMessage>

@@ -28,7 +28,7 @@ export const columns: ColumnDef<Account>[] = [
       />
     ),
     cell: ({ row }) => { 
-      console.log(row)
+      
       return (
       <Checkbox
         checked={row.getIsSelected()}

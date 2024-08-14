@@ -10,23 +10,20 @@ import { Edit, MoreHorizontal } from "lucide-react";
 import useAccountModal from "@/hooks/account-sheet-modal";
 
 type defaultValues = {
-  date: Date;
-  accountId: {
-      value: string;
-      label: string;
-  };
-  categoryId: {
-      value: string;
-      label: string;
-  };
+  date: string;
+  accountId: {label: string,value:string};
+  categoryId: {label: string,value:string};
+  
   payee: string;
-  amount: string;
-  notes?: string | undefined;
+  amount: number ;
+  notes?: string ;
+  _id: string;
 }
 
 
-export default function Actions(formDefaultValues: defaultValues) {
-  const { onOpen, setId, setNewName } = useAccountModal();
+export default function Actions({formDefaultValues}: {formDefaultValues:defaultValues}) {
+  const {setEditFormValues ,onOpen} = useAccountModal();
+  
   return (
     <DropdownMenu>
       <DropdownMenuTrigger>
@@ -38,9 +35,10 @@ export default function Actions(formDefaultValues: defaultValues) {
 
         <DropdownMenuItem
           onClick={() => {
-            onOpen("edit");
-            setId(id);
-            setNewName(currentFieldValue);
+            
+            setEditFormValues(formDefaultValues)
+            onOpen("edit")
+            
           }}
         >
           <Edit className="size-4 mr-2" />

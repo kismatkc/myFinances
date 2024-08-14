@@ -14,7 +14,7 @@ type transactionDetailsProps ={
       notes: string
                                }
   
-const updateTransaction= async (transactionDetails: transactionDetailsProps) => {
+const updateUser = async (transactionDetails: transactionDetailsProps) => {
   
   const response = await API.patch("/transaction/update",transactionDetails );
 
@@ -22,30 +22,41 @@ const updateTransaction= async (transactionDetails: transactionDetailsProps) => 
 }
 import useAccountModal from "@/hooks/account-sheet-modal";
 
-const useUpdateTransaction = () => {
+const useUpdateAccount = () => {
 
   const { onClose } = useAccountModal();
   const queryClient = useQueryClient();
   return useMutation({
 
-    mutationFn: updateTransaction,
-    onMutate: (updatedTransaction) => {
-      console.log(updatedTransaction,"update");
-      toast("transaction updated successfully")
+    mutationFn: updateUser,
+    onMutate: (updatedAccount) => {
+      console.log(updatedAccount,"update");
+      toast("Account updated successfully")
       queryClient.cancelQueries(
         {
-          queryKey: ['transactions']
+          queryKey: ['accounts']
         }
 
       );
 
-      const previousAccounts = queryClient.getQueryData(["transactions"]);
+      const previousAccounts = queryClient.getQueryData(['accounts']);
 
 
 
-      queryClient.setQueryData(['transactions'], (old: { id: string, name: string }[]) => ({...})
+      queryClient.setQueryData(['accounts'], (old: { id: string, name: string }[]) => {
 
-        
+        const newData = old.map((account) => {
+
+          if (account.id === updatedAccount._id) {
+            return { ...account, name: updatedAccount.name };
+          }
+          return account
+
+        }
+        )
+
+        return newData
+      })
       onClose()
       return { previousAccounts }
     },
@@ -69,7 +80,7 @@ const useUpdateTransaction = () => {
   })
 }
 
-export default useUpdateTransaction;
+export default useUpdateAccount;
 
 
 
