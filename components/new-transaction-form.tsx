@@ -20,7 +20,6 @@ import Select from "./select";
 import DatePicker from "./date-picker";
 import { Textarea } from "./ui/textarea";
 import InputAmount from "./input-amount";
-import { convertToMiliamounts } from "@/lib/utils";
 
 const formSchema = z.object({
   date: z.coerce
@@ -70,7 +69,7 @@ const NewTransactionForm = ({
   const mutation = useCreateNewTransaction();
 
   const onSubmit: SubmitHandler<formData> = (data) => {
-    const stringAmountToNumber = convertToMiliamounts(data.amount);
+    const stringAmountToNumber = data.amount.toString()
  
  
     

@@ -17,7 +17,8 @@ type defaultValues = {
   payee: string;
   amount: number ;
   notes?: string ;
-  _id: string;
+  _id: string
+ 
 }
 
 

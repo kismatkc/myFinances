@@ -8,7 +8,7 @@ import {
   CardHeader,
   CardFooter,
 } from "@/components/ui/card";
-import { Loader2, Plus } from "lucide-react";
+import { Import, Loader2, Plus } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import useAddNewAccountModal from "@/hooks/account-sheet-modal";
 
@@ -19,11 +19,17 @@ import { Skeleton } from "@/components/ui/skeleton";
 import useDeleteTransaction from "@/hooks/transactions/delete-transaction-hook";
 import TransactionSheetProvider from "@/components/providers/transaction-page-sheet-provider";
 import useGetAllAccounts from "@/hooks/transactions/get-all-transactions-hook";
+import useInputCsv from "@/components/inputcsvfile-dialog";
+
+
 
 //fetch data
 const TransactionPage = () => {
   const { isLoading, data } = useGetAllAccounts();
- 
+
+  const [InputCSVModalUi, openInputCSVModal] = useInputCsv();
+
+
 
   const { onOpen, actionType } = useAddNewAccountModal();
   const deleteAccounts = useDeleteTransaction();
@@ -47,21 +53,33 @@ const TransactionPage = () => {
     <>
       <Card className="border-none drop-shadow-sm max-w-screen-2xl  mx-auto pb-10 -mt-24">
         <CardHeader className="gap-y-2 lg:flex-row lg:justify-between items-center ">
-          <CardTitle className="text-xl line-clamp-1">Accounts page</CardTitle>
+          <CardTitle className="text-xl line-clamp-1">
+            Transaction history
+          </CardTitle>
+          <div className="flex gap-2">
           <Button
             onClick={() => {
               onOpen("add");
             }}
             size="sm"
+            className="bg-green-500 hover:bg-green-600"
           >
             <Plus className="size-4 mr-2" />
             Add new
           </Button>
+          <Button onClick={() => {
+      openInputCSVModal()
+          }} size="sm" className="bg-green-500 hover:bg-green-600">
+            <Import className="size-4 mr-2" />
+            Import CSV
+          </Button>
+          </div>
+          
         </CardHeader>
         <CardContent>
           <DataTable
             onDelete={(data) => {
-              deleteAccounts.mutate( data );
+              deleteAccounts.mutate(data);
             }}
             columns={columns}
             data={data || []}
@@ -69,6 +87,7 @@ const TransactionPage = () => {
           />
         </CardContent>
       </Card>
+<InputCSVModalUi/>
       <TransactionSheetProvider />
     </>
   );

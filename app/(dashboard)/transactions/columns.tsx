@@ -5,7 +5,8 @@ import { ArrowUpDown, MoreHorizontal } from "lucide-react";
 import { Checkbox } from "@/components/ui/checkbox";
 import Actions from "./actions"
 import { formatDate } from "date-fns";
-import { convertFromMiliamounts, formatCurrency } from "@/lib/utils";
+import { cn, convertFromMiliamounts, formatCurrency } from "@/lib/utils";
+import { Badge } from "@/components/ui/badge"
 
 
 // This type is used to define the shape of our data.
@@ -59,14 +60,21 @@ export const columns: ColumnDef<Transaction>[] = [
     cell: ({ row }) => {
       return (
         <span>
-          {formatDate(row.original.date || new Date(), "MMMM dd, yyyy")}
+          {row.original.date}
         </span>
       );
     },
+    filterFn: (row, columnId, filterValue) => {
+      const formattedDateForFilterning = row.original.date.replace(/\s+/g,"").replace(/\,/g,"").toLowerCase();
+      const formattedFilterValueForFilterning = filterValue.replace(/\s+/g,"").replace(/,/g,"").toLowerCase();
+      console.log(`${formattedFilterValueForFilterning} is in  ${formattedDateForFilterning}`,formattedDateForFilterning.includes(formattedFilterValueForFilterning));
+      
+      return formattedDateForFilterning.includes(formattedFilterValueForFilterning.toLowerCase())
+    } 
   },
   {
     accessorKey: "Category",
-
+//@ts-ignore
     cell: ({ row }) => <span>{row.original.categoryId.name}</span>,
   },
   {
@@ -89,9 +97,14 @@ export const columns: ColumnDef<Transaction>[] = [
     },
     cell: ({ row }) => {
       return (
-        <span>
-          {formatCurrency(convertFromMiliamounts(row.original.amount))}
-        </span>
+<Badge variant={row.original.amount > 0 ? "secondary" : "destructive"} className={cn("p-2.5 text-red-200",
+  row.original.amount > 0 && "bg-green-500 text-green-200"
+)}> <span>
+          {formatCurrency(row.original.amount)}
+        </span></Badge>
+
+
+       
       );
     },
     sortingFn: (rowA, rowB) => {

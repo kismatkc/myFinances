@@ -19,7 +19,6 @@ import {
   FormMessage,
 } from "./ui/form";
 
-
 import Select from "./select";
 import DatePicker from "./date-picker";
 import { Textarea } from "./ui/textarea";
@@ -43,14 +42,15 @@ const formSchema = z.object({
 });
 
 export type formData = z.infer<typeof formSchema>;
-type formDataForApi={
-  date: string,
-  accountId: {label: string,value: string},
-  categoryId: {label: string,value: string},
-  payee: string,
-  amount: string,
-  notes: string
-}
+type formDataForApi = {
+  date: string;
+  accountId: { label: string; value: string };
+  categoryId: { label: string; value: string };
+  payee: string;
+  amount: string;
+  notes: string;
+  _id:  string
+};
 type transactionFOrmProps = {
   disabled: boolean;
   categoryOptions: { label: string; value: string }[];
@@ -59,49 +59,64 @@ type transactionFOrmProps = {
   onCreateAccount: ({ name }: { name: string }) => void;
 };
 
-const EditTransactionForm= ({
+const EditTransactionForm = ({
   disabled,
   categoryOptions,
   onCreateCategory,
   accountOptions,
   onCreateAccount,
 }: transactionFOrmProps) => {
-  const { defaultValues  } = useAddNewAccountModal();
+  const { defaultValues } = useAddNewAccountModal();
 
-  //Could have used the achtal Date type from begjnning but next time 
+  //Could have used the achtal Date type from begjnning but next time
   // let formDefaultValues = {...defaultValues,date}
   const formMethods = useForm<formData>({
     resolver: zodResolver(formSchema),
     //Lots of unexpected huddent properties sk clulsnkt lrovide the full tyoe for the default values for eg name and_id
     defaultValues: {
       date: new Date(defaultValues.date),
-      accountId: { label: defaultValues.accountId.name, value: defaultValues.accountId._id},
-      categoryId: { label: defaultValues.categoryId.name, value: defaultValues.categoryId._id},
+      //@ts-ignore
+      accountId: {
+        //@ts-ignore
+
+        label: defaultValues.accountId.name,
+        //@ts-ignore
+
+        value: defaultValues.accountId._id,
+      },
+      categoryId: {
+        //@ts-ignore
+        label: defaultValues.categoryId.name,
+        //@ts-ignore
+        value: defaultValues.categoryId._id,
+      },
       notes: defaultValues.notes,
       payee: defaultValues.payee,
       amount: defaultValues.amount.toString(),
-      
     },
   });
 
   const mutation = useUpdateTransaction();
 
-  
   const onSubmit: SubmitHandler<formDataForApi> = (data) => {
     
     const stringAmountToNumber = convertToMiliamounts(data.amount);
-    const dateToString = data.date.toString()
- 
- 
+    const dateToString = data.date.toString();
+
+    mutation.mutate({
+      ...data,
+      amount: stringAmountToNumber,
+      date: dateToString,
+      _id: defaultValues._id
     
-    mutation.mutate({...data,amount: stringAmountToNumber,date: dateToString});
-    
+    });
   };
 
-const {isDirty} = formMethods.formState;
-  
+  const { isDirty } = formMethods.formState;
+
   return (
     <FormProvider {...formMethods}>
+      {/* @ts-ignore */}
       <form onSubmit={formMethods.handleSubmit(onSubmit)} className="space-y-8">
         <FormField
           control={formMethods.control}
@@ -109,7 +124,10 @@ const {isDirty} = formMethods.formState;
           render={({ field }) => (
             <FormItem>
               <FormControl>
-                <DatePicker date={field.value as Date} onChange={field.onChange} />
+                <DatePicker
+                  date={field.value as Date}
+                  onChange={field.onChange}
+                />
               </FormControl>
 
               <FormMessage>
@@ -224,9 +242,12 @@ const {isDirty} = formMethods.formState;
 
         <Button type="submit" variant="outline" disabled={!isDirty}>
           {mutation.isPending ? "Submitting" : "Submit"}
-     
         </Button>
-             {!isDirty && <div className="text-red-900 text-sm">Please modify the transcation in order to submit</div>}
+        {!isDirty && (
+          <div className="text-red-900 text-sm">
+            Please modify the transcation in order to submit
+          </div>
+        )}
       </form>
     </FormProvider>
   );
