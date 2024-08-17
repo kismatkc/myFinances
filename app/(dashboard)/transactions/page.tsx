@@ -12,7 +12,7 @@ import { Import, Loader2, Plus } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import useAddNewAccountModal from "@/hooks/account-sheet-modal";
 
-import { columns } from "./columns";
+import { columns } from "./columns-transaction";
 
 import { DataTable } from "@/components/data-table-transactions";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -23,13 +23,15 @@ import useInputCsv from "@/components/inputcsvfile-dialog";
 
 
 
+
+
 //fetch data
 const TransactionPage = () => {
-  const { isLoading, data } = useGetAllAccounts();
+  const { isLoading, data: transactionsFromApi } = useGetAllAccounts();
 
-  const [InputCSVModalUi, openInputCSVModal] = useInputCsv();
+  const [InputCSVModalUi, openInputCSVModal,transactionsFromCsv] = useInputCsv();
 
-
+  
 
   const { onOpen, actionType } = useAddNewAccountModal();
   const deleteAccounts = useDeleteTransaction();
@@ -54,10 +56,10 @@ const TransactionPage = () => {
       <Card className="border-none drop-shadow-sm max-w-screen-2xl  mx-auto pb-10 -mt-24">
         <CardHeader className="gap-y-2 lg:flex-row lg:justify-between items-center ">
           <CardTitle className="text-xl line-clamp-1">
-            Transaction history
+            { transactionsFromCsv.length > 0  ? "Csv data": "Transaction history" }
           </CardTitle>
           <div className="flex gap-2">
-          <Button
+   {    transactionsFromCsv.length > 0 || <Button
             onClick={() => {
               onOpen("add");
             }}
@@ -66,7 +68,7 @@ const TransactionPage = () => {
           >
             <Plus className="size-4 mr-2" />
             Add new
-          </Button>
+          </Button>}
           <Button onClick={() => {
       openInputCSVModal()
           }} size="sm" className="bg-green-500 hover:bg-green-600">
@@ -77,14 +79,29 @@ const TransactionPage = () => {
           
         </CardHeader>
         <CardContent>
-          <DataTable
-            onDelete={(data) => {
+          {
+         transactionsFromCsv.length > 0  ? (<DataTable
+            onRowsSelect={(data) => {
               deleteAccounts.mutate(data);
             }}
             columns={columns}
-            data={data || []}
+            data={transactionsFromCsv || []}
             filter="date"
-          />
+                        transactionType   = "csv"                   
+          />)
+
+          :
+//csv table ui
+        (  <DataTable
+            onRowsSelect={(data) => {
+              deleteAccounts.mutate(data);
+            }}
+            columns={columns}
+            data={transactionsFromApi || []}
+            filter="date"
+             transactionType= "transaction"    
+          />)
+          }
         </CardContent>
       </Card>
 <InputCSVModalUi/>

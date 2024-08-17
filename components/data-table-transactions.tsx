@@ -2,7 +2,7 @@
 import { Button } from "@/components/ui/button";
 import * as React from "react";
 import useConfirmation from "@/hooks/confirmationDialog";
-
+import {useEffect} from "react";
 import {
   ColumnDef,
   flexRender,
@@ -24,29 +24,34 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Input } from "@/components/ui/input";
-import { Trash } from "lucide-react";
+import { Trash , Import} from "lucide-react";
 import { Transaction } from "@/app/(dashboard)/transactions/columns";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
   filter: string;
-  onDelete: (rows: string[]) => void;
+  onRowsSelect: (rows: string[]) => void;
   disabled?: boolean;
+  transactionType?: "csv" | "transaction";
 }
 
 export function DataTable<TData extends Transaction, TValue>({
   columns,
   data,
   filter,
-  onDelete,
+  onRowsSelect,
   disabled,
+  transactionType
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
   );
   const [ConfirmationModalUi, openConfirmationModal] = useConfirmation();
+  
+  
+
 
   const [rowSelection, setRowSelection] = React.useState({});
 
@@ -83,27 +88,50 @@ export function DataTable<TData extends Transaction, TValue>({
           className="max-w-sm"
         />
         {table.getFilteredSelectedRowModel().rows.length > 0 && (
-          <Button
-            variant="destructive"
-            size="sm"
-            onClick={async () => {
-              const yes = await openConfirmationModal();
+          transactionType === "transaction" ? (
+            <Button
+              variant="destructive"
+              size="sm"
+              onClick={async () => {
+                const yes = await openConfirmationModal();
 
-              if (yes) {
-                const data = table
-                  .getFilteredSelectedRowModel()
-                  .rows.map((item) => item.original._id);
+                if (yes) {
+                  const data = table
+                    .getFilteredSelectedRowModel()
+                    .rows.map((item) => item.original._id);
 
-                onDelete(data);
-                table.resetRowSelection();
-              }
-             
-            }}
-            className="ml-auto font-normal text-xs"
-          >
-            <Trash className="size-4 mr-2" />
-            Delete({table.getFilteredSelectedRowModel().rows.length})
-          </Button>
+                  onDelete(data);
+                  table.resetRowSelection();
+                }
+              }}
+              className="ml-auto font-normal text-xs"
+            >
+              <Trash className="size-4 mr-2" />
+              Delete({table.getFilteredSelectedRowModel().rows.length})
+            </Button>
+          ) : (
+            transactionType === "csv" && (
+              <Button
+                size="sm"
+                onClick={async () => {
+                  const yes = await openConfirmationModal();
+
+                  if (yes) {
+                    const data = table
+                      .getFilteredSelectedRowModel()
+                      .rows.map((item) => item.original._id);
+
+                    //submitting to backend hook
+                    // table.resetRowSelection();
+                  }
+                }}
+                className="ml-auto font-normal bg-green-500 hover:bg-green-600 text-xs"
+              >
+                <Import className="size-4 mr-2" />
+                Import({table.getFilteredSelectedRowModel().rows.length})
+              </Button>
+            )
+          )
         )}
       </div>
       <div className="rounded-md border">
@@ -178,9 +206,9 @@ export function DataTable<TData extends Transaction, TValue>({
       </div>
       <ConfirmationModalUi
         title="Are you absolutely sure?"
-        description="This action cannot be undone. This will permanently delete your account
-            and remove your data from our servers."
+        description={ transactionType === "transaction" ? ( "This action cannot be undone. This will permanently delete your account and remove your data from our servers.") : ("This action cannot be undone. This will permanently add the transactions to our servers ") }
       />
+      <HelloUi title="good" description="super"/>
     </div>
   );
 }

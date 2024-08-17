@@ -12,19 +12,23 @@ import {
 } from "@/components/ui/dialog";
 import { X } from "lucide-react"
 import { Input } from "./ui/input";
-
-
-const handleFile = (event: ChangeEvent<HTMLInputElement>)=>{
-const file = event.target.files;
-console.log(file);
-
-
+import Papa from "papaparse"
+export type CSVDataProps = {
+  categoryId: string;
+  notes: string;
+  payee: string;
+  amount: string;
+  date: string;
+  
 }
+
+
 
 
 type useInputCSVReturnType = [
     InputCSVModalUi: React.FC,
-    openInputCSVModal: ()=> Promise<boolean>
+    openInputCSVModal: ()=> Promise<boolean>,
+  setTransactionsFromCsv: CSVDataProps[]
 ]
 // Define the type for the promise state
 interface PromiseState {
@@ -58,6 +62,26 @@ export default function useInputCsv(): useInputCSVReturnType {
     handleClose();
   };
 
+  const handleFile = (event: ChangeEvent<HTMLInputElement>)=>{
+  if(event.target.files){
+const file = event.target.files[0];
+  
+
+Papa.parse(file,{
+  header: true,
+  skipEmptyLines: true,
+  complete: (result: any) => {
+    setTransactionsFromCsv(result.data)
+    
+    handleCancel()
+              
+  }
+})
+
+  }
+}
+
+  const [transactionsFromCsv, setTransactionsFromCsv] = useState<CSVDataProps[]>([]);
   
   const InputCSVModalUi = ()=>(
       <Dialog open={promise !== null}>
@@ -96,7 +120,7 @@ export default function useInputCsv(): useInputCSVReturnType {
     
 
                                    
- return[InputCSVModalUi,openInputCSVModal];
+ return[InputCSVModalUi,openInputCSVModal,transactionsFromCsv];
 }
 
       

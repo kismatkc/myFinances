@@ -13,8 +13,8 @@ import { Badge } from "@/components/ui/badge"
 // You can use a Zod schema here if you want.
 export type Transaction = {
   date: string;
-  accountId: {label: string,value:string};
-  categoryId: {label: string,value:string}
+  accountId: {label: string,value:string} | string;
+  categoryId: {label: string,value:string} | string;
   payee: string;
   amount: number ;
   notes?: string ;
@@ -60,7 +60,7 @@ export const columns: ColumnDef<Transaction>[] = [
     cell: ({ row }) => {
       return (
         <span>
-          {row.original.date}
+          {formatDate(row.original.date, "MMMM dd, yyyy")}
         </span>
       );
     },
@@ -75,7 +75,7 @@ export const columns: ColumnDef<Transaction>[] = [
   {
     accessorKey: "Category",
 //@ts-ignore
-    cell: ({ row }) => <span>{row.original.categoryId.name}</span>,
+    cell: ({ row }) => <span>{row.original.categoryId?.name || row.original.categoryId }</span>,
   },
   {
     accessorKey: "Payee",
