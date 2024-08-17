@@ -8,11 +8,12 @@ import {
   CardHeader,
   CardFooter,
 } from "@/components/ui/card";
-import { Import, Loader2, Plus } from "lucide-react";
+import { Cross, Import, Loader2, Plus, X } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import useAddNewAccountModal from "@/hooks/account-sheet-modal";
 
 import { columns } from "./columns-transaction";
+import { columnsCsv } from "./columns-transaction-csv";
 
 import { DataTable } from "@/components/data-table-transactions";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -29,7 +30,12 @@ import useInputCsv from "@/components/inputcsvfile-dialog";
 const TransactionPage = () => {
   const { isLoading, data: transactionsFromApi } = useGetAllAccounts();
 
-  const [InputCSVModalUi, openInputCSVModal,transactionsFromCsv] = useInputCsv();
+  const [
+    InputCSVModalUi,
+    openInputCSVModal,
+    transactionsFromCsv,
+    setTransactionsFromCsv,
+  ] = useInputCsv();
 
   
 
@@ -56,55 +62,76 @@ const TransactionPage = () => {
       <Card className="border-none drop-shadow-sm max-w-screen-2xl  mx-auto pb-10 -mt-24">
         <CardHeader className="gap-y-2 lg:flex-row lg:justify-between items-center ">
           <CardTitle className="text-xl line-clamp-1">
-            { transactionsFromCsv.length > 0  ? "Csv data": "Transaction history" }
+            {transactionsFromCsv.length > 0
+              ? "Csv data"
+              : "Transaction history"}
           </CardTitle>
           <div className="flex gap-2">
-   {    transactionsFromCsv.length > 0 || <Button
-            onClick={() => {
-              onOpen("add");
-            }}
-            size="sm"
-            className="bg-green-500 hover:bg-green-600"
-          >
-            <Plus className="size-4 mr-2" />
-            Add new
-          </Button>}
-          <Button onClick={() => {
-      openInputCSVModal()
-          }} size="sm" className="bg-green-500 hover:bg-green-600">
-            <Import className="size-4 mr-2" />
-            Import CSV
-          </Button>
+            {transactionsFromCsv.length > 0 || (
+              <Button
+                onClick={() => {
+                  onOpen("add");
+                }}
+                size="sm"
+                className="bg-green-500 hover:bg-green-600"
+              >
+                <Plus className="size-4 mr-2" />
+                Add new
+              </Button>
+            )}
+
+            {transactionsFromCsv.length > 0 ? (
+              <Button
+                onClick={() => {
+                  setTransactionsFromCsv([]);
+                }}
+                size="sm"
+                className="bg-red-500 hover:bg-red-600"
+              >
+                <X className="size-4 mr-2" />
+                Cancel Import
+              </Button>
+            ) : (
+              <Button
+                onClick={() => {
+                  openInputCSVModal();
+                }}
+                size="sm"
+                className="bg-green-500 hover:bg-green-600"
+              >
+                <Import className="size-4 mr-2" />
+                Import CSV
+              </Button>
+            )}
           </div>
-          
         </CardHeader>
         <CardContent>
-          {
-         transactionsFromCsv.length > 0  ? (<DataTable
-            onRowsSelect={(data) => {
-              deleteAccounts.mutate(data);
-            }}
-            columns={columns}
-            data={transactionsFromCsv || []}
-            filter="date"
-                        transactionType   = "csv"                   
-          />)
-
-          :
-//csv table ui
-        (  <DataTable
-            onRowsSelect={(data) => {
-              deleteAccounts.mutate(data);
-            }}
-            columns={columns}
-            data={transactionsFromApi || []}
-            filter="date"
-             transactionType= "transaction"    
-          />)
-          }
+          {transactionsFromCsv.length > 0 ? (
+            <DataTable
+              onRowsSelect={(data) => {
+                deleteAccounts.mutate(data);
+              }}
+              columns={columnsCsv}
+              data={transactionsFromCsv || []}
+              filter="date"
+              transactionType="csv"
+              cancelImport={setTransactionsFromCsv}
+            />
+          ) : (
+            //csv table ui
+            <DataTable
+              onRowsSelect={(data) => {
+                deleteAccounts.mutate(data);
+              }}
+              columns={columns}
+              data={transactionsFromApi || []}
+              filter="date"
+              transactionType="transaction"
+            />
+          )}
         </CardContent>
       </Card>
-<InputCSVModalUi/>
+      <InputCSVModalUi />
       <TransactionSheetProvider />
     </>
   );

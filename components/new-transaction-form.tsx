@@ -16,7 +16,7 @@ import { Input } from "./ui/input";
 import { Button } from "./ui/button";
 import API from "@/app/axios";
 import useCreateNewTransaction from "@/hooks/transactions/create-new-transaction-hook";
-import Select from "./select";
+import Select from "./select-for-sheets";
 import DatePicker from "./date-picker";
 import { Textarea } from "./ui/textarea";
 import InputAmount from "./input-amount";
@@ -62,19 +62,16 @@ const NewTransactionForm = ({
       categoryId: {},
       payee: "",
       amount: "",
-      notes: ""
+      notes: "",
     },
   });
 
   const mutation = useCreateNewTransaction();
 
   const onSubmit: SubmitHandler<formData> = (data) => {
-    const stringAmountToNumber = data.amount.toString()
- 
- 
-    
-    mutation.mutate({...data,amount: stringAmountToNumber});
- 
+    const stringAmountToNumber = data.amount.toString();
+
+    mutation.mutate({ ...data, amount: stringAmountToNumber });
   };
 
   return (
@@ -86,7 +83,10 @@ const NewTransactionForm = ({
           render={({ field }) => (
             <FormItem>
               <FormControl>
-                <DatePicker date={field.value as Date} onChange={field.onChange} />
+                <DatePicker
+                  date={field.value as Date}
+                  onChange={field.onChange}
+                />
               </FormControl>
 
               <FormMessage>

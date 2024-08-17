@@ -19,7 +19,7 @@ import {
   FormMessage,
 } from "./ui/form";
 
-import Select from "./select";
+import Select from "./select-for-sheets";
 import DatePicker from "./date-picker";
 import { Textarea } from "./ui/textarea";
 import InputAmount from "./input-amount";
@@ -49,7 +49,7 @@ type formDataForApi = {
   payee: string;
   amount: string;
   notes: string;
-  _id:  string
+  _id: string;
 };
 type transactionFOrmProps = {
   disabled: boolean;
@@ -99,7 +99,6 @@ const EditTransactionForm = ({
   const mutation = useUpdateTransaction();
 
   const onSubmit: SubmitHandler<formDataForApi> = (data) => {
-    
     const stringAmountToNumber = convertToMiliamounts(data.amount);
     const dateToString = data.date.toString();
 
@@ -107,8 +106,7 @@ const EditTransactionForm = ({
       ...data,
       amount: stringAmountToNumber,
       date: dateToString,
-      _id: defaultValues._id
-    
+      _id: defaultValues._id,
     });
   };
 

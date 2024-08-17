@@ -1,3 +1,4 @@
+//@ts-nocheck
 "use client";
 import { Button } from "@/components/ui/button";
 import * as React from "react";
@@ -25,15 +26,19 @@ import {
 } from "@/components/ui/table";
 import { Input } from "@/components/ui/input";
 import { Trash , Import} from "lucide-react";
-import { Transaction } from "@/app/(dashboard)/transactions/columns";
+import { Transaction } from "@/app/(dashboard)/transactions/columns-transaction";
+import SelectAsDialog from "./select-as-dialog";
+import { CSVDataProps } from "./inputcsvfile-dialog";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
   filter: string;
-  onRowsSelect: (rows: string[]) => void;
+  onRowsSelect: (rows: (string | undefined)[]) => void;
   disabled?: boolean;
   transactionType?: "csv" | "transaction";
+              cancelImport?: (cancel: CSVDataProps[])=> void;
+
 }
 
 export function DataTable<TData extends Transaction, TValue>({
@@ -42,7 +47,9 @@ export function DataTable<TData extends Transaction, TValue>({
   filter,
   onRowsSelect,
   disabled,
-  transactionType
+  transactionType,
+              cancelImport
+
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
@@ -72,23 +79,21 @@ export function DataTable<TData extends Transaction, TValue>({
     },
   });
 
+  const [AccountSelectUi, openAccountSelectUi] = SelectAsDialog();
+
   return (
     <div>
       <div className="flex items-center py-4">
         <Input
           placeholder={`Filter ${filter}...`}
           value={(table.getColumn(filter)?.getFilterValue() as string) ?? ""}
-          onChange={(event) =>
-          {
-            
-           return  table.getColumn(filter)?.setFilterValue(event.target.value)
-          }
-            
-          }
+          onChange={(event) => {
+            return table.getColumn(filter)?.setFilterValue(event.target.value);
+          }}
           className="max-w-sm"
         />
-        {table.getFilteredSelectedRowModel().rows.length > 0 && (
-          transactionType === "transaction" ? (
+        {table.getFilteredSelectedRowModel().rows.length > 0 &&
+          (transactionType === "transaction" ? (
             <Button
               variant="destructive"
               size="sm"
@@ -100,8 +105,8 @@ export function DataTable<TData extends Transaction, TValue>({
                     .getFilteredSelectedRowModel()
                     .rows.map((item) => item.original._id);
 
-                  onDelete(data);
-                  table.resetRowSelection();
+                  onRowsSelect(data);
+                     table.resetRowSelection();
                 }
               }}
               className="ml-auto font-normal text-xs"
@@ -113,17 +118,20 @@ export function DataTable<TData extends Transaction, TValue>({
             transactionType === "csv" && (
               <Button
                 size="sm"
-                onClick={async () => {
-                  const yes = await openConfirmationModal();
+                onClick={() => {
+                  // const yes = await openConfirmationModal();
 
-                  if (yes) {
-                    const data = table
-                      .getFilteredSelectedRowModel()
-                      .rows.map((item) => item.original._id);
+                  // if (yes) {
+                  //   const data = table
+                  //     .getFilteredSelectedRowModel()
+                  //     .rows.map((item) => item.original._id);
 
-                    //submitting to backend hook
-                    // table.resetRowSelection();
-                  }
+                  //   //submitting to backend hook
+                  //   // table.resetRowSelection();
+                  // }
+
+                  openAccountSelectUi(true);
+                    
                 }}
                 className="ml-auto font-normal bg-green-500 hover:bg-green-600 text-xs"
               >
@@ -131,8 +139,7 @@ export function DataTable<TData extends Transaction, TValue>({
                 Import({table.getFilteredSelectedRowModel().rows.length})
               </Button>
             )
-          )
-        )}
+          ))}
       </div>
       <div className="rounded-md border">
         <Table>
@@ -206,9 +213,20 @@ export function DataTable<TData extends Transaction, TValue>({
       </div>
       <ConfirmationModalUi
         title="Are you absolutely sure?"
-        description={ transactionType === "transaction" ? ( "This action cannot be undone. This will permanently delete your account and remove your data from our servers.") : ("This action cannot be undone. This will permanently add the transactions to our servers ") }
+        description={
+          "This action cannot be undone. This will permanently delete your account and remove your data from our servers."
+        }
       />
-      <HelloUi title="good" description="super"/>
+    
+      <AccountSelectUi
+      
+        selectedTransaction={table
+          .getFilteredSelectedRowModel()
+          .rows.map((item) => item.original)}
+        cancelImport={()=>{
+              table.resetRowSelection();
+        }}
+      />
     </div>
   );
 }

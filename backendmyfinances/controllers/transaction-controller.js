@@ -35,7 +35,7 @@ export const getTransactions = async(req,res)=>{
  export const createTransaction = async(req,res)=>{
 const transactionDetails = req.body;
 const convertAmountToNumber = convertToMiliamounts(parseFloat(transactionDetails.amount))
-console.log(transactionDetails)
+
  
  try {
     await connectToDatabase();

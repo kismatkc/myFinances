@@ -14,15 +14,13 @@ import { Badge } from "@/components/ui/badge"
 // You can use a Zod schema here if you want.
 export type Transaction = {
   date: string;
-  accountId?: {label: string,value:string} | string;
-  categoryId?: {label: string,value:string} | string;
   payee: string;
   amount: number | string ;
   notes?: string ;
   _id?: string;
 };
 
-export const columns: ColumnDef<Transaction>[] = [
+export const columnsCsv: ColumnDef<Transaction>[] = [
   {
     id: "select",
     header: ({ table }) => (
@@ -73,11 +71,7 @@ export const columns: ColumnDef<Transaction>[] = [
       return formattedDateForFilterning.includes(formattedFilterValueForFilterning.toLowerCase())
     } 
   },
-  {
-    accessorKey: "Category",
-//@ts-ignore
-    cell: ({ row }) => <span>{row.original.categoryId?.name || row.original.categoryId }</span>,
-  },
+
   {
     accessorKey: "Payee",
 

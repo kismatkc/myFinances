@@ -26,10 +26,11 @@ export type CSVDataProps = {
 
 
 type useInputCSVReturnType = [
-    InputCSVModalUi: React.FC,
-    openInputCSVModal: ()=> Promise<boolean>,
-  setTransactionsFromCsv: CSVDataProps[]
-]
+  InputCSVModalUi: React.FC,
+  openInputCSVModal: () => Promise<boolean>,
+  transactionsFromCsv: CSVDataProps[],
+  setTransactionsFromCsv: (transaction: CSVDataProps[])=> void
+];
 // Define the type for the promise state
 interface PromiseState {
   resolve: (value: boolean) => void;
@@ -120,7 +121,7 @@ Papa.parse(file,{
     
 
                                    
- return[InputCSVModalUi,openInputCSVModal,transactionsFromCsv];
+ return[InputCSVModalUi,openInputCSVModal,transactionsFromCsv,setTransactionsFromCsv];
 }
 
       
