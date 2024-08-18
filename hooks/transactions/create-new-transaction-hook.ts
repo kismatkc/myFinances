@@ -68,7 +68,7 @@ const useCreateNewTransaction = () => {
 
 
       queryClient.invalidateQueries({
-        queryKey: ['accounts']
+        queryKey: ['transactions']
       })
 
 
@@ -76,9 +76,10 @@ const useCreateNewTransaction = () => {
 
 
     },
-    onError: (context: { previousAccounts: { id: string, name: string }[] }) => {
-      queryClient.setQueryData(['accounts'], context?.previousAccounts)
-      toast("Account not added please try again")
+    onError: (_1, _2, context) => {
+
+      queryClient.setQueryData(['transactions'], context)
+      toast("transactions not added please try again")
     }
   })
 }

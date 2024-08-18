@@ -40,7 +40,7 @@ const useCreateNewAccount = () => {
       
       onClose()
 
-      return { previousAccounts }
+      return  previousAccounts 
     },
 
     onSuccess: (data) => {
@@ -55,8 +55,10 @@ console.log(data);
 
 
     },
-    onError: (context: { previousAccounts: { id: string, name: string }[] }) => {
-      queryClient.setQueryData(['accounts'], context?.previousAccounts)
+    onError: (error,vari,context) => {
+      
+      
+      queryClient.setQueryData(['accounts'], context)
       toast("Account not added please try again")
     }
   })

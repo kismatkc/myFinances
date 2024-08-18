@@ -1,4 +1,6 @@
-import React, { useState } from 'react'
+
+
+import React, { useEffect, useRef, useState } from "react";
 import {
   Select,
   SelectContent,
@@ -6,7 +8,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import useGetAllAccounts from '@/hooks/accounts/get-all-accounts-hook';
+import useGetAllAccounts from "@/hooks/accounts/get-all-accounts-hook";
 import useGetAllcategories from "@/hooks/categories/get-all-categories-hook";
 import useConfirmation from "@/hooks/confirmationDialog";
 import {
@@ -18,62 +20,76 @@ import {
   DialogFooter,
   DialogClose,
 } from "@/components/ui/dialog";
-import { X } from 'lucide-react';
-import { Button } from './ui/button';
+import { X } from "lucide-react";
+import { Button } from "./ui/button";
 import useCreateNewTransaction from "@/hooks/transactions/create-new-transaction-hook";
-import useInputCsv, { CSVDataProps } from './inputcsvfile-dialog';
+import useInputCsv, { CSVDataProps } from "./inputcsvfile-dialog";
 
-type selectedTransactionProps ={
-    amount: string | number,
-    categoryId: string,
-    date: string,
-    notes: string,
-    payee: string
-}
+
+
+type selectedTransactionProps = {
+  amount: string | number;
+  categoryId: string;
+  date: string;
+  notes: string;
+  payee: string;
+};
 
 type SelectAsDialogProps = [
   SelectUi: ({
     selectedTransaction,
-    cancelImport
+    cancelImport,
   }: {
-    selectedTransaction: selectedTransactionProps[],
-              cancelImport?: (cancel: CSVDataProps[])=> void;
-    
+    selectedTransaction: selectedTransactionProps[];
+    cancelImport?: (cancel: CSVDataProps[]) => void;
   }) => React.JSX.Element,
   setOpen: (open: boolean) => void,
   account: string,
   account: string
 ];
 
-
-
 const SelectAsDialog = (): SelectAsDialogProps => {
+  //try
 
-    const { data: accounts, isLoading: accountsIsLoading } =
-      useGetAllAccounts();
-       const { data: categories, isLoading: categoriesIsLoading } =
-         useGetAllcategories();
-    const accountOptions = accounts.map((account) => ({
-      label: account.name,
-      value: account._id,
-    }));
-      const categoryOptions = categories.map((category) => ({
-        label: category.name,
-        value: category._id,
-      }));
+  const { data: accounts, isLoading: accountsIsLoading } = useGetAllAccounts();
+  const { data: categories, isLoading: categoriesIsLoading } =
+    useGetAllcategories();
+
+  const accountOptions = accounts.map((account) => ({
+    label: account.name,
+    value: account._id,
+  }));
+
+  const categoryOptions = categories.map((category) => ({
+    label: category.name,
+    value: category._id,
+  }));
+
   const [open, setOpen] = useState<boolean>(false);
   const [ConfirmationModalUi, openConfirmationModal] = useConfirmation();
-  const [account, setAccount] = useState("");
-  const [category, setCategory] = useState("");
 
-const mutation = useCreateNewTransaction();
+  const accountId = useRef("");
+  const categoryId = useRef("");
+
+
+
+  const [disabled, setDisabled] = useState(true);
+
+  const mutation = useCreateNewTransaction();
+
+
+  useEffect(() => {
+   
+    
+  
+  }, [accountId.current, categoryId.current]);
+
   const SelectUi = ({
     selectedTransaction,
-    cancelImport
+    cancelImport,
   }: {
-    selectedTransaction: selectedTransactionProps[],
-                  cancelImport?: (cancel: CSVDataProps[])=> void;
-
+    selectedTransaction: selectedTransactionProps[];
+    cancelImport?: (cancel: CSVDataProps[]) => void;
   }) => (
     <Dialog open={open}>
       <DialogContent>
@@ -93,10 +109,9 @@ const mutation = useCreateNewTransaction();
           </DialogClose>
           <DialogFooter>
             <Select
-              value={account}
               onValueChange={(value) => {
-               
-                setAccount(value);
+                accountId.current = value;
+                 setDisabled(!(accountId.current && categoryId.current));
               }}
             >
               <SelectTrigger>
@@ -109,13 +124,11 @@ const mutation = useCreateNewTransaction();
                   </SelectItem>
                 ))}
               </SelectContent>
-         
             </Select>
             <Select
-              value={category}
               onValueChange={(value) => {
-                
-                setCategory(value);
+                categoryId.current = value;
+                 setDisabled(!(accountId.current && categoryId.current));
               }}
             >
               <SelectTrigger>
@@ -128,33 +141,42 @@ const mutation = useCreateNewTransaction();
                   </SelectItem>
                 ))}
               </SelectContent>
-              <Button
-                onClick={async () => {
-                  const yes = await openConfirmationModal();
-                  if (yes) {
-                   const accountObject = accountOptions.find((accountFromApi)=> accountFromApi.value === account )
-                   const categoryObject = categoryOptions.find((categoryFromApi)=> categoryFromApi.value === category )
-                   if(accountObject && categoryObject){
-                   selectedTransaction.map((transactionFromCsv)=>{
- mutation.mutate({...transactionFromCsv,accountId: accountObject,categoryId: categoryObject})
-                   })
-
-                }
-                // @ts-ignore
-cancelImport()
-                    setOpen(false);
-                    
-       
-                  }
-                }}
-                variant="positive"
-                size="lg"
-                className="ml-4"
-                disabled={!(account && category) ? true: false}
-              >
-                Yes
-              </Button>
             </Select>
+            <Button
+              onClick={async () => {
+                const yes = await openConfirmationModal();
+                if (yes) {
+                  const accountObject = accountOptions.find(
+                    (accountFromApi) =>
+                      accountFromApi.value === accountId.current
+                  );
+                  const categoryObject = categoryOptions.find(
+                    (categoryFromApi) =>
+                      categoryFromApi.value === categoryId.current
+                  );
+                  if (accountObject && categoryObject) {
+                    selectedTransaction.map((transactionFromCsv) => {
+                  
+                      mutation.mutate({
+                        ...transactionFromCsv,
+                        accountId: accountObject,
+                        categoryId: categoryObject,
+                      });
+                    });
+                  }
+                  // @ts-ignore
+                  cancelImport();
+                  setOpen(false);
+                }
+              }}
+              variant="positive"
+              size="lg"
+              className="ml-4"
+              disabled={disabled}
+            >
+              Yes
+            </Button>
+           
           </DialogFooter>
         </DialogHeader>
       </DialogContent>
@@ -167,7 +189,7 @@ cancelImport()
     </Dialog>
   );
 
-  return [SelectUi, setOpen,account,category];
+  return [SelectUi, setOpen, accountId.current, categoryId.current];
 };
 
-export default SelectAsDialog
+export default SelectAsDialog;

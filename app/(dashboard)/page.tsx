@@ -47,13 +47,9 @@ if(isLoading) return (
   <p>Isloading</p>
 )
   return (
-
     <>
       <p>Dashboard: {JSON.stringify(data)}</p>
-
-  
-      
-
+     
 
       {/* <SignOutButton /> */}
     </>

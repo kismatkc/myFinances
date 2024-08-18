@@ -38,6 +38,7 @@ const TransactionSchema = new Schema(
   },
   {
     timestamps: true,
+    unique: true
   }
 );
 
